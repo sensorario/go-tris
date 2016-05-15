@@ -4,11 +4,17 @@ type player struct {
 	name string
 }
 
+type move struct {
+	player   player
+	position int
+}
+
 type game struct {
 	currentPlayer string
 	currentTurn   int
 	players       []player
 	board         board
+	moves         []move
 }
 
 type board struct {
@@ -36,6 +42,7 @@ func (g *game) shouldPlay() (p player) {
 }
 
 func (g *game) play(position int) {
+	g.moves = append(g.moves, move{g.shouldPlay(), position})
 	g.currentTurn++
 }
 
@@ -56,4 +63,8 @@ func (g *game) whoHasSymbol(s string) player {
 		return g.players[0]
 	}
 	return g.players[1]
+}
+
+func (g *game) turns() []move {
+	return g.moves
 }

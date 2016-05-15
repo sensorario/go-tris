@@ -15,6 +15,17 @@ func TestGameStartsInIdleStatus(t *testing.T) {
 	}
 }
 
+func TestGameMovesIsAnEmptyArray(t *testing.T) {
+	var g game
+	if 0 != len(g.turns()) {
+		t.Error(
+			"Game should not have",
+			len(g.turns()),
+			"items!!!",
+		)
+	}
+}
+
 func TestGameAcceptPlayers(t *testing.T) {
 	var g game
 	var p player = player{name: "Simone"}
@@ -27,6 +38,21 @@ func TestGameStartsWhenHasTwoPlayers(t *testing.T) {
 	g.addPlayer(player{"Demo"})
 	if "Started" != g.status() {
 		t.Error("status must be Started")
+	}
+}
+
+func TestGameMovesCountEachTurnPlayed(t *testing.T) {
+	var g game
+	g.addPlayer(player{"Simone"})
+	g.addPlayer(player{"Demo"})
+	g.play(7)
+	if 1 != len(g.turns()) {
+		t.Error(
+			"Game should not have",
+			len(g.turns()),
+			"items!!!",
+			"But one!!",
+		)
 	}
 }
 
@@ -48,7 +74,7 @@ func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
 				g.players[turnToPlay%2],
 			)
 		}
-		g.play(0)
+		g.play(42)
 		i++
 	}
 }
