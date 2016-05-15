@@ -29,20 +29,6 @@ func TestGameStartsWhenHasTwoPlayers(t *testing.T) {
 	}
 }
 
-func TestFirstPlayerShouldStart(t *testing.T) {
-	var g game
-	firstPlayerName := "Foo"
-	g.addPlayer(player{firstPlayerName})
-	g.addPlayer(player{"Demo"})
-	if firstPlayerName != g.shouldPlay().name {
-		t.Error(
-			firstPlayerName,
-			"should start the game but",
-			g.shouldPlay(),
-		)
-	}
-}
-
 func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
 	var g game
 	players := [2]string{
