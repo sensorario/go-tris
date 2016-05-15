@@ -51,3 +51,12 @@ func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
 		i++
 	}
 }
+
+func TestBoardMustContainNineTiles(t *testing.T) {
+	var b board
+	if len(b.tiles) != 9 {
+		t.Error(
+			"Tiles must be 9",
+		)
+	}
+}

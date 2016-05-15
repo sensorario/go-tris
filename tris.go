@@ -10,6 +10,10 @@ type game struct {
 	players       []player
 }
 
+type board struct {
+	tiles [9]int
+}
+
 func (g *game) status() (s string) {
 	if playerCount := len(g.players); playerCount == 2 {
 		return "Started"
