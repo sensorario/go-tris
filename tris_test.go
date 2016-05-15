@@ -34,7 +34,7 @@ func TestFirstPlayerShouldStart(t *testing.T) {
 	firstPlayerName := "Foo"
 	g.addPlayer(player{firstPlayerName})
 	g.addPlayer(player{"Demo"})
-	if firstPlayerName != g.shouldPlay() {
+	if firstPlayerName != g.shouldPlay().name {
 		t.Error(
 			firstPlayerName,
 			"should start the game but",
@@ -43,7 +43,7 @@ func TestFirstPlayerShouldStart(t *testing.T) {
 	}
 }
 
-func TestCurentPlayerChangeAfterTurn(t *testing.T) {
+func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
 	var g game
 	players := [2]string{
 		"Simone",
@@ -54,7 +54,7 @@ func TestCurentPlayerChangeAfterTurn(t *testing.T) {
 	turnToPlay := 9
 	i := 0
 	for _ = range players {
-		if players[i] != g.shouldPlay() {
+		if players[i] != g.shouldPlay().name {
 			t.Error(
 				players[0],
 				"should play the game but",
