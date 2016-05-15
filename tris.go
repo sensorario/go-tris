@@ -12,6 +12,7 @@ func (g *Game) Status() (s string) {
 	if g.numPlayers == 2 {
 		return "Started"
 	}
+
 	return "Idle"
 }
 
