@@ -88,3 +88,23 @@ func TestBoardIsComposedByTiles(t *testing.T) {
 		}
 	}
 }
+
+func TestGameHasItsOwnBoard(t *testing.T) {
+	var g game
+	if reflect.TypeOf(g.board).Name() != "board" {
+		t.Error("A game must have its own board")
+	}
+}
+
+func TestNumberOfFreeTiles(t *testing.T) {
+	var g game
+	freeTiles := 0
+	for _, tt := range g.board.cells() {
+		if tt.isFree() == true {
+			freeTiles++
+		}
+	}
+	if freeTiles != 9 {
+		t.Error("There are not enough free tiles")
+	}
+}

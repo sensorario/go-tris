@@ -8,6 +8,7 @@ type game struct {
 	currentPlayer string
 	currentTurn   int
 	players       []player
+	board         board
 }
 
 type board struct {
