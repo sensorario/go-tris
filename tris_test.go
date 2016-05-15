@@ -10,3 +10,9 @@ func TestGameStartsInIdleStatus(t *testing.T) {
 		t.Error("Status must be idle")
 	}
 }
+
+func TestGameAcceptPlayers(t *testing.T) {
+	var g Game
+	var p Player = Player{name: "Simone"}
+	g.AddPlayer(p)
+}
