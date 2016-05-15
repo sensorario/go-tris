@@ -1,30 +1,32 @@
 package tris
 
-type Game struct {
-	numPlayers    int
+type game struct {
 	currentPlayer string
+	currentTurn   int
+	players       []string
 }
 
-type Player struct {
+type player struct {
 	name string
 }
 
-func (g *Game) Status() (s string) {
-	if g.numPlayers == 2 {
+func (g *game) status() (s string) {
+	if playerCount := len(g.players); playerCount == 2 {
 		return "Started"
 	}
 
 	return "Idle"
 }
 
-func (g *Game) AddPlayer(p Player) {
-	if g.numPlayers == 0 {
-		g.currentPlayer = p.name
-	}
-	g.numPlayers++
+func (g *game) addPlayer(p player) {
+	g.players = append(g.players, p.name)
 }
 
-func (g *Game) shouldPlay() (s string) {
-	s = g.currentPlayer
+func (g *game) shouldPlay() (s string) {
+	s = g.players[g.currentTurn%2]
 	return
+}
+
+func (g *game) play(position int) {
+	g.currentTurn++
 }
