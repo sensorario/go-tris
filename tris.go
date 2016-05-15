@@ -11,7 +11,6 @@ type move struct {
 
 type game struct {
 	currentPlayer string
-	currentTurn   int
 	players       []player
 	board         board
 	moves         []move
@@ -37,13 +36,12 @@ func (g *game) addPlayer(p player) {
 }
 
 func (g *game) shouldPlay() (p player) {
-	p = g.players[g.currentTurn%2]
+	p = g.players[len(g.turns())%2]
 	return
 }
 
 func (g *game) play(position int) {
 	g.moves = append(g.moves, move{g.shouldPlay(), position})
-	g.currentTurn++
 }
 
 func (t *tile) isFree() bool {
