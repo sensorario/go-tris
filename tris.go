@@ -1,6 +1,7 @@
 package tris
 
 type Game struct {
+	numPlayers int
 }
 
 type Player struct {
@@ -8,9 +9,12 @@ type Player struct {
 }
 
 func (g *Game) Status() (s string) {
-	s = "Idle"
-	return
+	if g.numPlayers == 2 {
+		return "Started"
+	}
+	return "Idle"
 }
 
 func (g *Game) AddPlayer(p Player) {
+	g.numPlayers++
 }
