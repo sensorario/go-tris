@@ -50,3 +50,10 @@ func (t *tile) play() {
 func (b *board) cells() (cc [9]tile) {
 	return b.tiles
 }
+
+func (g *game) whoHasSymbol(s string) player {
+	if s == "X" {
+		return g.players[0]
+	}
+	return g.players[1]
+}

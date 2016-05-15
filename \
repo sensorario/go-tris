@@ -109,7 +109,7 @@ func TestNumberOfFreeTiles(t *testing.T) {
 	}
 }
 
-func TestSecondPlayersSymbol(t *testing.T) {
+func TestPlayersSymbol(t *testing.T) {
 	var g game
 	g.addPlayer(player{"Foo"})
 	g.addPlayer(player{"Bar"})
