@@ -25,3 +25,16 @@ func TestGameStartsWhenHasTwoPlayers(t *testing.T) {
 		t.Error("Status must be Started")
 	}
 }
+
+func TestFirstPlayerShouldStart(t *testing.T) {
+	var g Game
+	firstPlayerName := "Foo"
+	g.AddPlayer(Player{firstPlayerName})
+	g.AddPlayer(Player{"Demo"})
+	if firstPlayerName != g.shouldPlay() {
+		t.Error(
+			"Luca should start the game but",
+			g.currentPlayer,
+		)
+	}
+}
