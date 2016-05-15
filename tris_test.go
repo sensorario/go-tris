@@ -1,6 +1,7 @@
 package tris
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -58,5 +59,32 @@ func TestBoardMustContainNineTiles(t *testing.T) {
 		t.Error(
 			"Tiles must be 9",
 		)
+	}
+}
+
+func TestTileShouldBeFreeOrOccupied(t *testing.T) {
+	var tile tile
+	if tile.isFree() != true {
+		t.Error("Just created tile must be free")
+	}
+}
+
+func TestWhenPlayedTileIsNoMoreFree(t *testing.T) {
+	var tile tile
+	tile.play()
+	if tile.isFree() != false {
+		t.Error("Tile must be occupied when played")
+	}
+}
+
+func TestBoardIsComposedByTiles(t *testing.T) {
+	var b board
+	for _, tt := range b.cells() {
+		if "tile" != reflect.TypeOf(tt).Name() {
+			t.Error(
+				"Oops! Tile is of type",
+				reflect.TypeOf(tt).Name(),
+			)
+		}
 	}
 }

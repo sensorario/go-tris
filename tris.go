@@ -11,7 +11,11 @@ type game struct {
 }
 
 type board struct {
-	tiles [9]int
+	tiles [9]tile
+}
+
+type tile struct {
+	played bool
 }
 
 func (g *game) status() (s string) {
@@ -32,4 +36,16 @@ func (g *game) shouldPlay() (p player) {
 
 func (g *game) play(position int) {
 	g.currentTurn++
+}
+
+func (t *tile) isFree() bool {
+	return !t.played
+}
+
+func (t *tile) play() {
+	t.played = true
+}
+
+func (b *board) cells() (cc [9]tile) {
+	return b.tiles
 }
