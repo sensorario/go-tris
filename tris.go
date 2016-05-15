@@ -56,11 +56,11 @@ func (b *board) cells() (cc [9]tile) {
 	return b.tiles
 }
 
-func (g *game) whoHasSymbol(s string) player {
-	if s == "X" {
-		return g.players[0]
+func (g *game) whoHasSymbol(s string) (p player) {
+	if p = g.players[1]; s == "X" {
+		p = g.players[0]
 	}
-	return g.players[1]
+	return
 }
 
 func (g *game) turns() []move {
