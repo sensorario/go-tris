@@ -1,0 +1,10 @@
+package tris
+
+import (
+	"testing"
+)
+
+func TestPlayersMustHaveAName(t *testing.T) {
+	var g Game
+	assert.Equal(t, "Idle", g.Status)
+}
