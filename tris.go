@@ -40,8 +40,12 @@ func (g *game) shouldPlay() (p player) {
 	return
 }
 
-func (g *game) play(position int) {
+func (g *game) play(position int) int {
+	if position < 0 || position > 9 {
+		return -1
+	}
 	g.moves = append(g.moves, move{g.shouldPlay(), position})
+	return len(g.moves)
 }
 
 func (t *tile) isFree() bool {

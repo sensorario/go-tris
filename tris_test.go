@@ -74,7 +74,7 @@ func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
 				g.players[turnToPlay%2],
 			)
 		}
-		g.play(42)
+		g.play(7)
 		i++
 	}
 }
@@ -141,5 +141,16 @@ func TestSecondPlayersSymbol(t *testing.T) {
 	g.addPlayer(player{"Bar"})
 	if "Bar" != g.whoHasSymbol("O").name {
 		t.Error("Second player myst have `O` as symbol")
+	}
+}
+
+func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
+	var g game
+	g.addPlayer(player{"Simone"})
+	g.addPlayer(player{"Demo"})
+	if -1 != g.play(42) {
+		t.Error(
+			"42 should not be valid as position",
+		)
 	}
 }
