@@ -25,6 +25,9 @@ type tile struct {
 }
 
 func (g *game) status() (s string) {
+	if len(g.turns()) == 9 {
+		return "End"
+	}
 	if playerCount := len(g.players); playerCount == 2 {
 		return "Started"
 	}

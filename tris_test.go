@@ -175,7 +175,17 @@ func TestTileCannotBeSelectedTwice(t *testing.T) {
 	}
 }
 
-func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {}
+func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
+	var g game
+	g.addPlayer(player{"Simone"})
+	g.addPlayer(player{"Demo"})
+	for i := 1; i <= 9; i++ {
+		g.play(i)
+	}
+	if "End" != g.status() {
+		t.Error("g.status() must be End when there are no more cells")
+	}
+}
 
 func TestGameEndsWhenTrisIsDone(t *testing.T) {}
 
