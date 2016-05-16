@@ -6,7 +6,7 @@ import (
 )
 
 func TestGameStartsInIdleStatus(t *testing.T) {
-	var g game
+	var g Game
 	if "Idle" != g.status() {
 		t.Error(
 			"g.status() must be Idle instead of",
@@ -16,7 +16,7 @@ func TestGameStartsInIdleStatus(t *testing.T) {
 }
 
 func TestGameMovesIsAnEmptyArray(t *testing.T) {
-	var g game
+	var g Game
 	if 0 != len(g.turns()) {
 		t.Error(
 			"Game should not have",
@@ -27,24 +27,24 @@ func TestGameMovesIsAnEmptyArray(t *testing.T) {
 }
 
 func TestGameAcceptPlayers(t *testing.T) {
-	var g game
-	var p player = player{name: "Simone"}
-	g.addPlayer(p)
+	var g Game
+	var p Player = Player{Name: "Simone"}
+	g.AddPlayer(p)
 }
 
 func TestGameStartsWhenHasTwoPlayers(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Simone"})
-	g.addPlayer(player{"Demo"})
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
 	if "Started" != g.status() {
 		t.Error("status must be Started")
 	}
 }
 
 func TestGameMovesCountEachTurnPlayed(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Simone"})
-	g.addPlayer(player{"Demo"})
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
 	g.play(7)
 	if 1 != len(g.turns()) {
 		t.Error(
@@ -57,20 +57,20 @@ func TestGameMovesCountEachTurnPlayed(t *testing.T) {
 }
 
 func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
-	var g game
+	var g Game
 	players := [2]string{
 		"Simone",
 		"Demo",
 	}
-	g.addPlayer(player{players[0]})
-	g.addPlayer(player{players[1]})
+	g.AddPlayer(Player{players[0]})
+	g.AddPlayer(Player{players[1]})
 	turnToPlay := 9
 	i := 0
 	for _ = range players {
-		if players[i] != g.shouldPlay().name {
+		if players[i] != g.shouldPlay().Name {
 			t.Error(
 				players[0],
-				"should play the game but",
+				"should play the Game but",
 				g.players[turnToPlay%2],
 			)
 		}
@@ -116,14 +116,14 @@ func TestBoardIsComposedByTiles(t *testing.T) {
 }
 
 func TestGameHasItsOwnBoard(t *testing.T) {
-	var g game
+	var g Game
 	if reflect.TypeOf(g.board).Name() != "board" {
-		t.Error("A game must have its own board")
+		t.Error("A Game must have its own board")
 	}
 }
 
 func TestNumberOfFreeTiles(t *testing.T) {
-	var g game
+	var g Game
 	freeTiles := 0
 	for _, tt := range g.board.cells() {
 		if tt.isFree() == true {
@@ -136,18 +136,18 @@ func TestNumberOfFreeTiles(t *testing.T) {
 }
 
 func TestSecondPlayersSymbol(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Foo"})
-	g.addPlayer(player{"Bar"})
-	if "Bar" != g.whoHasSymbol("O").name {
+	var g Game
+	g.AddPlayer(Player{"Foo"})
+	g.AddPlayer(Player{"Bar"})
+	if "Bar" != g.whoHasSymbol("O").Name {
 		t.Error("Second player myst have `O` as symbol")
 	}
 }
 
 func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Simone"})
-	g.addPlayer(player{"Demo"})
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
 	if -1 != g.play(42) {
 		t.Error(
 			"42 should not be valid as position",
@@ -156,9 +156,9 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 }
 
 func TestValidPositionReturnZero(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Simone"})
-	g.addPlayer(player{"Demo"})
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
 	if 0 != g.play(3) {
 		// todo: improve error message
 		t.Error("g.play(position int) should return zero")
@@ -166,9 +166,9 @@ func TestValidPositionReturnZero(t *testing.T) {
 }
 
 func TestTileCannotBeSelectedTwice(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Simone"})
-	g.addPlayer(player{"Demo"})
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
 	g.play(3)
 	if -1 != g.play(3) {
 		t.Error("g.play(position int) should not accept same position twice")
@@ -176,9 +176,9 @@ func TestTileCannotBeSelectedTwice(t *testing.T) {
 }
 
 func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
-	var g game
-	g.addPlayer(player{"Simone"})
-	g.addPlayer(player{"Demo"})
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
 	for i := 1; i <= 9; i++ {
 		g.play(i)
 	}

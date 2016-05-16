@@ -1,17 +1,17 @@
 package tris
 
-type player struct {
-	name string
+type Player struct {
+	Name string
 }
 
 type move struct {
-	player   player
+	player   Player
 	position int
 }
 
-type game struct {
+type Game struct {
 	currentPlayer string
-	players       []player
+	players       []Player
 	board         board
 	moves         []move
 }
@@ -24,7 +24,7 @@ type tile struct {
 	played bool
 }
 
-func (g *game) status() (s string) {
+func (g *Game) status() (s string) {
 	if len(g.turns()) == 9 {
 		return "End"
 	}
@@ -34,16 +34,16 @@ func (g *game) status() (s string) {
 	return "Idle"
 }
 
-func (g *game) addPlayer(p player) {
+func (g *Game) AddPlayer(p Player) {
 	g.players = append(g.players, p)
 }
 
-func (g *game) shouldPlay() (p player) {
+func (g *Game) shouldPlay() (p Player) {
 	p = g.players[len(g.turns())%2]
 	return
 }
 
-func (g *game) play(position int) int {
+func (g *Game) play(position int) int {
 	if position < 0 || position > 9 {
 		return -1
 	}
@@ -68,13 +68,13 @@ func (b *board) cells() (cc [9]tile) {
 	return b.tiles
 }
 
-func (g *game) whoHasSymbol(s string) (p player) {
+func (g *Game) whoHasSymbol(s string) (p Player) {
 	if p = g.players[1]; s == "X" {
 		p = g.players[0]
 	}
 	return
 }
 
-func (g *game) turns() []move {
+func (g *Game) turns() []move {
 	return g.moves
 }
