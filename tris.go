@@ -44,6 +44,11 @@ func (g *game) play(position int) int {
 	if position < 0 || position > 9 {
 		return -1
 	}
+	for _, m := range g.turns() {
+		if m.position == position {
+			return -1
+		}
+	}
 	g.moves = append(g.moves, move{g.shouldPlay(), position})
 	return 0
 }

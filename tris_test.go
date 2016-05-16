@@ -160,11 +160,20 @@ func TestValidPositionReturnZero(t *testing.T) {
 	g.addPlayer(player{"Simone"})
 	g.addPlayer(player{"Demo"})
 	if 0 != g.play(3) {
+		// todo: improve error message
 		t.Error("g.play(position int) should return zero")
 	}
 }
 
-func TestTileCannotBeSelectedTwice(t *testing.T) {}
+func TestTileCannotBeSelectedTwice(t *testing.T) {
+	var g game
+	g.addPlayer(player{"Simone"})
+	g.addPlayer(player{"Demo"})
+	g.play(3)
+	if -1 != g.play(3) {
+		t.Error("g.play(position int) should not accept same position twice")
+	}
+}
 
 func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {}
 
