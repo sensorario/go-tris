@@ -154,3 +154,22 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 		)
 	}
 }
+
+func TestValidPositionReturnZero(t *testing.T) {
+	var g game
+	g.addPlayer(player{"Simone"})
+	g.addPlayer(player{"Demo"})
+	if 0 != g.play(3) {
+		t.Error("g.play(position int) should return zero")
+	}
+}
+
+func TestTileCannotBeSelectedTwice(t *testing.T) {}
+
+func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {}
+
+func TestGameEndsWhenTrisIsDone(t *testing.T) {}
+
+func TestPositionHasValues(t *testing.T) {}
+
+func TestBotChooseBetterChoice(t *testing.T) {}
