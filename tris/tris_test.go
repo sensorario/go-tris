@@ -136,11 +136,22 @@ func TestNumberOfFreeTiles(t *testing.T) {
 }
 
 func TestSecondPlayersSymbol(t *testing.T) {
+	var tests = []struct {
+		playerName string
+		symbol     string
+	}{
+		{"Foo", "X"},
+		{"Bar", "O"},
+	}
+
 	var g Game
 	g.AddPlayer(Player{"Foo"})
 	g.AddPlayer(Player{"Bar"})
-	if "Bar" != g.whoHasSymbol("O").Name {
-		t.Error("Second player myst have `O` as symbol")
+
+	for _, test := range tests {
+		if test.playerName != g.whoHasSymbol(test.symbol).Name {
+			t.Error("Second player myst have `O` as symbol")
+		}
 	}
 }
 
