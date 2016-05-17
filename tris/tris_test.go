@@ -197,9 +197,3 @@ func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
 		t.Error("g.status() must be End when there are no more cells")
 	}
 }
-
-func TestGameEndsWhenTrisIsDone(t *testing.T) {}
-
-func TestPositionHasValues(t *testing.T) {}
-
-func TestBotChooseBetterChoice(t *testing.T) {}
