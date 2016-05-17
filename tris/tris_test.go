@@ -210,3 +210,12 @@ func TestTrisIsDone(t *testing.T) {
 		t.Error("Tris cannot be done when game is not yet started")
 	}
 }
+
+func TestPlayerHasNotMovedIn(t *testing.T) {
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
+	if true == g.PlayerHasMovedIn(Player{"Simone"}, 1) {
+		t.Error("Nobody has moved here")
+	}
+}

@@ -82,3 +82,7 @@ func (g *Game) turns() []move {
 func (g *Game) TrisIsDone() bool {
 	return false
 }
+
+func (g *Game) PlayerHasMovedIn(p Player, position int) bool {
+	return false
+}
