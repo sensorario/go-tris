@@ -211,17 +211,9 @@ func TestTrisIsDone(t *testing.T) {
 	}
 }
 
-func TestPlayerHasNotMovedIn(t *testing.T) {
+func TestIsPossibleToCheckIfAPlayerHasMovedInASetOfPositions(t *testing.T) {
 	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	if true == g.PlayerHasMovedIn(Player{"Simone"}, 1) {
-		t.Error("Nobody has moved here")
-	}
-}
-
-func TestPlayerOneHasMadeTris(t *testing.T) {
-	var g Game
+	p := [3]int{1, 4, 7}
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
 	g.play(1)
@@ -229,13 +221,7 @@ func TestPlayerOneHasMadeTris(t *testing.T) {
 	g.play(4)
 	g.play(3)
 	g.play(7)
-	if false == g.PlayerHasMovedIn(Player{"Simone"}, 1) {
-		t.Error("Simone has moved here!!")
-	}
-	if false == g.PlayerHasMovedIn(Player{"Simone"}, 4) {
-		t.Error("Simone has moved here!!")
-	}
-	if false == g.PlayerHasMovedIn(Player{"Simone"}, 7) {
-		t.Error("Simone has moved here!!")
+	if false == g.PlayerHasMovedInSet(Player{"Simone"}, p) {
+		t.Error("Simone has moved in this set!!!")
 	}
 }
