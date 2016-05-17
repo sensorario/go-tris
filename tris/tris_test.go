@@ -166,13 +166,17 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 	}
 }
 
-func TestValidPositionReturnZero(t *testing.T) {
+func TestValidGameReturnsZero(t *testing.T) {
 	var g Game
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
-	if 0 != g.play(3) {
-		// todo: improve error message
-		t.Error("g.play(position int) should return zero")
+	for i := 1; i < 10; i++ {
+		if playResult := g.play(i); 0 != playResult {
+			t.Error(
+				"g.play("+string(i)+") should return zero instead of",
+				string(playResult),
+			)
+		}
 	}
 }
 
