@@ -93,10 +93,11 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 }
 
 func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
+	setItemFound := 0
 	for _, pos := range positions {
 		if g.playerHasMovedIn(p, pos) {
-			return true
+			setItemFound++
 		}
 	}
-	return false
+	return setItemFound == 3
 }
