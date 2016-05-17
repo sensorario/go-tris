@@ -213,7 +213,7 @@ func TestTrisIsDone(t *testing.T) {
 
 func TestIsPossibleToCheckIfAPlayerHasMovedInASetOfPositions(t *testing.T) {
 	var g Game
-	p := [3]int{1, 4, 7}
+	set := [3]int{1, 4, 7}
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
 	g.play(1)
@@ -221,7 +221,7 @@ func TestIsPossibleToCheckIfAPlayerHasMovedInASetOfPositions(t *testing.T) {
 	g.play(4)
 	g.play(3)
 	g.play(7)
-	if false == g.PlayerHasMovedInSet(Player{"Simone"}, p) {
+	if false == g.PlayerHasMovedInSet(Player{"Simone"}, set) {
 		t.Error("Simone has moved in this set!!!")
 	}
 }
