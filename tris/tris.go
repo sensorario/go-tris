@@ -78,3 +78,7 @@ func (g *Game) whoHasSymbol(s string) (p Player) {
 func (g *Game) turns() []move {
 	return g.moves
 }
+
+func (g *Game) TrisIsDone() bool {
+	return false
+}

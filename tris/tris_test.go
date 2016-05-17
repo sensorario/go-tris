@@ -201,3 +201,12 @@ func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
 		t.Error("g.status() must be End when there are no more cells")
 	}
 }
+
+func TestTrisIsDone(t *testing.T) {
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
+	if true == g.TrisIsDone() {
+		t.Error("Tris cannot be done when game is not yet started")
+	}
+}
