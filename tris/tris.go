@@ -84,5 +84,10 @@ func (g *Game) TrisIsDone() bool {
 }
 
 func (g *Game) PlayerHasMovedIn(p Player, position int) bool {
+	for _, m := range g.turns() {
+		if m.player == p && m.position == position {
+			return true
+		}
+	}
 	return false
 }

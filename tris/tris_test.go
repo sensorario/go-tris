@@ -219,3 +219,23 @@ func TestPlayerHasNotMovedIn(t *testing.T) {
 		t.Error("Nobody has moved here")
 	}
 }
+
+func TestPlayerOneHasMadeTris(t *testing.T) {
+	var g Game
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
+	g.play(1)
+	g.play(2)
+	g.play(4)
+	g.play(3)
+	g.play(7)
+	if false == g.PlayerHasMovedIn(Player{"Simone"}, 1) {
+		t.Error("Simone has moved here!!")
+	}
+	if false == g.PlayerHasMovedIn(Player{"Simone"}, 4) {
+		t.Error("Simone has moved here!!")
+	}
+	if false == g.PlayerHasMovedIn(Player{"Simone"}, 7) {
+		t.Error("Simone has moved here!!")
+	}
+}
