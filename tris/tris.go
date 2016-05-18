@@ -93,18 +93,6 @@ func (g *Game) shouldPlay() (p Player) {
 	return
 }
 
-func (t *tile) isFree() bool {
-	return !t.played
-}
-
-func (t *tile) play() {
-	t.played = true
-}
-
-func (b *board) cells() (cc [9]tile) {
-	return b.tiles
-}
-
 func (g *Game) turns() []move {
 	return g.moves
 }
