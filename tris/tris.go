@@ -14,6 +14,7 @@ type Game struct {
 	players       []Player
 	board         board
 	moves         []move
+	trisIsDone    bool
 }
 
 type board struct {
@@ -52,7 +53,11 @@ func (g *Game) play(position int) int {
 			return -1
 		}
 	}
-	g.moves = append(g.moves, move{g.shouldPlay(), position})
+	currentPlayer := g.shouldPlay()
+	g.moves = append(g.moves, move{currentPlayer, position})
+	if g.PlayerHasMovedInSet(currentPlayer, [3]int{1, 4, 7}) {
+		g.trisIsDone = true
+	}
 	return 0
 }
 
@@ -80,7 +85,7 @@ func (g *Game) turns() []move {
 }
 
 func (g *Game) TrisIsDone() bool {
-	return false
+	return g.trisIsDone
 }
 
 func (g *Game) playerHasMovedIn(p Player, position int) bool {
