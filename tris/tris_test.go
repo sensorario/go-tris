@@ -1,120 +1,8 @@
 package tris
 
 import (
-	"reflect"
 	"testing"
 )
-
-func TestGameMovesIsAnEmptyArray(t *testing.T) {
-	var g Game
-	if 0 != len(g.turns()) {
-		t.Error(
-			"Game should not have",
-			len(g.turns()),
-			"items!!!",
-		)
-	}
-}
-
-func TestGameAcceptPlayers(t *testing.T) {
-	var g Game
-	var p Player = Player{Name: "Simone"}
-	g.AddPlayer(p)
-}
-
-func TestGameMovesCountEachTurnPlayed(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	g.Play(7)
-	if 1 != len(g.turns()) {
-		t.Error(
-			"Game should not have",
-			len(g.turns()),
-			"items!!!",
-			"But one!!",
-		)
-	}
-}
-
-func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
-	var g Game
-	players := [2]string{
-		"Simone",
-		"Demo",
-	}
-	g.AddPlayer(Player{players[0]})
-	g.AddPlayer(Player{players[1]})
-	turnToPlay := 9
-	i := 0
-	for _ = range players {
-		if players[i] != g.shouldPlay().Name {
-			t.Error(
-				players[0],
-				"should play the Game but",
-				g.players[turnToPlay%2],
-			)
-		}
-		g.Play(7)
-		i++
-	}
-}
-
-func TestBoardMustContainNineTiles(t *testing.T) {
-	var b board
-	if len(b.tiles) != 9 {
-		t.Error(
-			"Tiles must be 9",
-		)
-	}
-}
-
-func TestTileShouldBeFreeOrOccupied(t *testing.T) {
-	var tile tile
-	if tile.isFree() != true {
-		t.Error("Just created tile must be free")
-	}
-}
-
-func TestWhenPlayedTileIsNoMoreFree(t *testing.T) {
-	var tile tile
-	tile.play()
-	if tile.isFree() != false {
-		t.Error("Tile must be occupied when played")
-	}
-}
-
-func TestBoardIsComposedByTiles(t *testing.T) {
-	var b board
-	for _, tt := range b.cells() {
-		if "tile" != reflect.TypeOf(tt).Name() {
-			t.Error(
-				"Oops! Tile is of type",
-				reflect.TypeOf(tt).Name(),
-			)
-		}
-	}
-}
-
-func TestGameHasItsOwnBoard(t *testing.T) {
-	var g Game
-	if reflect.TypeOf(g.board).Name() != "board" {
-		t.Error("A Game must have its own board")
-	}
-}
-
-func TestNumberOfFreeTiles(t *testing.T) {
-	var g Game
-	freeTiles := 0
-	for _, tt := range g.board.cells() {
-		if tt.isFree() == true {
-			freeTiles++
-		}
-	}
-	if freeTiles != 9 {
-		t.Error("There are not enough free tiles")
-	}
-}
 
 func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 	var g Game
@@ -148,19 +36,6 @@ func TestTileCannotBeSelectedTwice(t *testing.T) {
 	g.Play(3)
 	if -1 != g.Play(3) {
 		t.Error("g.pLay(position int) should not accept same position twice")
-	}
-}
-
-func TestCannotPlayMoreThanNineTimes(t *testing.T) {
-	var g Game
-	var result int
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	for i := 1; i <= 10; i++ {
-		result = g.Play(i)
-	}
-	if result != -1 {
-		t.Error("FAIL")
 	}
 }
 
@@ -217,38 +92,21 @@ func TestTrisIsDone(t *testing.T) {
 	}
 }
 
-func TestCurrentPlayerIsAvailableAndChangeEachTurn(t *testing.T) {
+func TestCurrentAndNextPlayerAreDifferentAndChangeInEachTurn(t *testing.T) {
 	var g Game
-	firstPlayer := Player{"Simone"}
-	secondPlayer := Player{"Demo"}
-	g.AddPlayer(firstPlayer)
-	g.AddPlayer(secondPlayer)
-
-	if g.CurrentPlayer() != firstPlayer {
-		t.Error("Current player should be firstPlayer one")
+	players := []Player{
+		Player{"Simone"},
+		Player{"Demo"},
 	}
-
-	g.Play(1)
-
-	if g.CurrentPlayer() != secondPlayer {
-		t.Error("Current player should be secondPlayer one")
-	}
-}
-
-func TestNextPlayerIsAvailableAndChangeEachTurn(t *testing.T) {
-	var g Game
-	firstPlayer := Player{"Simone"}
-	secondPlayer := Player{"Demo"}
-	g.AddPlayer(firstPlayer)
-	g.AddPlayer(secondPlayer)
-
-	if g.NextPlayer() != secondPlayer {
-		t.Error("Current player should be secondPlayer one")
-	}
-
-	g.Play(1)
-
-	if g.NextPlayer() != firstPlayer {
-		t.Error("Current player should be firstPlayer one")
+	g.AddPlayer(players[0])
+	g.AddPlayer(players[1])
+	for i := 1; i < 10; i++ {
+		if g.NextPlayer() != players[i%2] {
+			t.Error("Current player should be ", players[i%2])
+		}
+		g.Play(i)
+		if g.CurrentPlayer() != players[i%2] {
+			t.Error("Current player should be ", players[i%2])
+		}
 	}
 }
