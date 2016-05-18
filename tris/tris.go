@@ -4,17 +4,17 @@ type Player struct {
 	Name string
 }
 
-type move struct {
-	player   Player
-	position int
-}
-
 type Game struct {
 	currentPlayer string
 	players       []Player
 	board         board
 	moves         []move
 	trisIsDone    bool
+}
+
+type move struct {
+	player   Player
+	position int
 }
 
 type board struct {
@@ -27,11 +27,6 @@ type tile struct {
 
 func (g *Game) AddPlayer(p Player) {
 	g.players = append(g.players, p)
-}
-
-func (g *Game) shouldPlay() (p Player) {
-	p = g.players[len(g.turns())%2]
-	return
 }
 
 func (g *Game) Play(position int) int {
@@ -71,6 +66,15 @@ func (g *Game) Play(position int) int {
 	return 0
 }
 
+func (g *Game) TrisIsDone() bool {
+	return g.trisIsDone
+}
+
+func (g *Game) shouldPlay() (p Player) {
+	p = g.players[len(g.turns())%2]
+	return
+}
+
 func (t *tile) isFree() bool {
 	return !t.played
 }
@@ -83,19 +87,8 @@ func (b *board) cells() (cc [9]tile) {
 	return b.tiles
 }
 
-func (g *Game) whoHasSymbol(s string) (p Player) {
-	if p = g.players[1]; s == "X" {
-		p = g.players[0]
-	}
-	return
-}
-
 func (g *Game) turns() []move {
 	return g.moves
-}
-
-func (g *Game) TrisIsDone() bool {
-	return g.trisIsDone
 }
 
 func (g *Game) playerHasMovedIn(p Player, position int) bool {
