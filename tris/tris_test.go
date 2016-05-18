@@ -215,26 +215,17 @@ func TestCannotPlayMoreThanNineTimes(t *testing.T) {
 	}
 }
 
-func TestTrisIsDone(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	if true == g.TrisIsDone() {
-		t.Error("Tris cannot be done when game is not yet started")
-	}
-}
-
-func TestIsPossibleToCheckIfAPlayerHasMovedInASetOfPositions(t *testing.T) {
+func TestSetPresenceInTurns(t *testing.T) {
 	var tests = []struct {
-		turns  []int
-		set    [3]int
-		result bool
+		turns      []int
+		set        [3]int
+		trisIsDone bool
 	}{
 		{[]int{1, 2, 4, 3, 7}, [3]int{1, 4, 7}, true},
-		// {[]int{1, 2, 4, 3, 7}, [3]int{1, 3, 7}, false},
-		// {[]int{2, 1, 5, 3, 8}, [3]int{2, 5, 8}, true},
-		// {[]int{1, 2, 5, 3, 9}, [3]int{1, 5, 9}, true},
-		// {[]int{3, 2, 6, 4, 9}, [3]int{3, 6, 9}, true},
+		{[]int{1, 2, 4, 3, 7}, [3]int{1, 3, 7}, false},
+		{[]int{2, 1, 5, 3, 8}, [3]int{2, 5, 8}, true},
+		{[]int{1, 2, 5, 3, 9}, [3]int{1, 5, 9}, true},
+		{[]int{3, 2, 6, 4, 9}, [3]int{3, 6, 9}, true},
 	}
 	for _, test := range tests {
 		var g Game
@@ -244,11 +235,35 @@ func TestIsPossibleToCheckIfAPlayerHasMovedInASetOfPositions(t *testing.T) {
 			g.play(move)
 		}
 		result := g.PlayerHasMovedInSet(Player{"Simone"}, test.set)
-		if test.result != result {
-			t.Errorf("Set %d, %d, %d = %v", test.set[0], test.set[1], test.set[2], test.result)
+		if test.trisIsDone != result {
+			t.Errorf("Set %d, %d, %d = %v", test.set[0], test.set[1], test.set[2], test.trisIsDone)
 		}
-		if g.TrisIsDone() != test.result {
-			t.Errorf("TrisIsDone dont work with %d,%d,%d!", test.set[0], test.set[1], test.set[2])
+	}
+}
+
+func TestTrisIsDone(t *testing.T) {
+	var tests = []struct {
+		turns []int
+		set   [3]int
+	}{
+		{[]int{1, 5, 2, 4, 3}, [3]int{1, 2, 3}},
+		{[]int{4, 2, 5, 1, 6}, [3]int{4, 5, 6}},
+		{[]int{7, 1, 8, 2, 9}, [3]int{7, 8, 9}},
+		{[]int{1, 2, 4, 3, 7}, [3]int{1, 4, 7}},
+		{[]int{2, 1, 5, 3, 8}, [3]int{2, 5, 8}},
+		{[]int{1, 2, 5, 3, 9}, [3]int{1, 5, 9}},
+		{[]int{3, 2, 6, 4, 9}, [3]int{3, 6, 9}},
+		{[]int{3, 2, 5, 4, 7}, [3]int{3, 5, 7}},
+	}
+	for _, test := range tests {
+		var g Game
+		g.AddPlayer(Player{"Simone"})
+		g.AddPlayer(Player{"Demo"})
+		for _, move := range test.turns {
+			g.play(move)
+		}
+		if g.TrisIsDone() != true {
+			t.Errorf("TrisIsDone is not working with %d,%d,%d. ", test.set[0], test.set[1], test.set[2])
 		}
 	}
 }

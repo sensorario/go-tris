@@ -54,9 +54,29 @@ func (g *Game) play(position int) int {
 		}
 	}
 	currentPlayer := g.shouldPlay()
-	g.moves = append(g.moves, move{currentPlayer, position})
-	if g.PlayerHasMovedInSet(currentPlayer, [3]int{1, 4, 7}) {
-		g.trisIsDone = true
+	g.moves = append(
+		g.moves,
+		move{currentPlayer, position},
+	)
+	var winSets = []struct {
+		winSet [3]int
+	}{
+		{[3]int{1, 2, 3}},
+		{[3]int{4, 5, 6}},
+		{[3]int{7, 8, 9}},
+		{[3]int{1, 4, 7}},
+		{[3]int{1, 5, 9}},
+		{[3]int{2, 5, 8}},
+		{[3]int{3, 6, 9}},
+		{[3]int{3, 5, 7}},
+	}
+	for _, set := range winSets {
+		if g.PlayerHasMovedInSet(
+			currentPlayer,
+			set.winSet,
+		) {
+			g.trisIsDone = true
+		}
 	}
 	return 0
 }
