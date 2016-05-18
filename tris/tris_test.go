@@ -202,6 +202,19 @@ func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
 	}
 }
 
+func TestCannotPlayMoreThanNineTimes(t *testing.T) {
+	var g Game
+	var result int
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
+	for i := 1; i <= 10; i++ {
+		result = g.play(i)
+	}
+	if result != -1 {
+		t.Error("FAIL")
+	}
+}
+
 func TestTrisIsDone(t *testing.T) {
 	var g Game
 	g.AddPlayer(Player{"Simone"})
