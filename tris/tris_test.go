@@ -5,16 +5,6 @@ import (
 	"testing"
 )
 
-func TestGameStartsInIdleStatus(t *testing.T) {
-	var g Game
-	if "Idle" != g.status() {
-		t.Error(
-			"g.status() must be Idle instead of",
-			g.status(),
-		)
-	}
-}
-
 func TestGameMovesIsAnEmptyArray(t *testing.T) {
 	var g Game
 	if 0 != len(g.turns()) {
@@ -30,15 +20,6 @@ func TestGameAcceptPlayers(t *testing.T) {
 	var g Game
 	var p Player = Player{Name: "Simone"}
 	g.AddPlayer(p)
-}
-
-func TestGameStartsWhenHasTwoPlayers(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	if "Started" != g.status() {
-		t.Error("status must be Started")
-	}
 }
 
 func TestGameMovesCountEachTurnPlayed(t *testing.T) {
@@ -187,18 +168,6 @@ func TestTileCannotBeSelectedTwice(t *testing.T) {
 	g.Play(3)
 	if -1 != g.Play(3) {
 		t.Error("g.pLay(position int) should not accept same position twice")
-	}
-}
-
-func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	for i := 1; i <= 9; i++ {
-		g.Play(i)
-	}
-	if "End" != g.status() {
-		t.Error("g.status() must be End when there are no more cells")
 	}
 }
 

@@ -25,16 +25,6 @@ type tile struct {
 	played bool
 }
 
-func (g *Game) status() (s string) {
-	if len(g.turns()) == 9 {
-		return "End"
-	}
-	if playerCount := len(g.players); playerCount == 2 {
-		return "Started"
-	}
-	return "Idle"
-}
-
 func (g *Game) AddPlayer(p Player) {
 	g.players = append(g.players, p)
 }
