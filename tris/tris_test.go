@@ -212,20 +212,23 @@ func TestTrisIsDone(t *testing.T) {
 }
 
 func TestIsPossibleToCheckIfAPlayerHasMovedInASetOfPositions(t *testing.T) {
-	var g Game
-	rightSet := [3]int{1, 4, 7}
-	wrongSet := [3]int{1, 3, 7}
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	g.play(1)
-	g.play(2)
-	g.play(4)
-	g.play(3)
-	g.play(7)
-	if false == g.PlayerHasMovedInSet(Player{"Simone"}, rightSet) {
-		t.Error("Simone has moved in this set!!!")
+	var tests = []struct {
+		turns  []int
+		set    [3]int
+		result bool
+	}{
+		{[]int{1, 2, 4, 3, 7}, [3]int{1, 4, 7}, true},
+		{[]int{1, 2, 4, 3, 7}, [3]int{1, 3, 7}, false},
 	}
-	if true == g.PlayerHasMovedInSet(Player{"Simone"}, wrongSet) {
-		t.Error("Simone has not moved in this set!!!")
+	for _, test := range tests {
+		var g Game
+		g.AddPlayer(Player{"Simone"})
+		g.AddPlayer(Player{"Demo"})
+		for _, move := range test.turns {
+			g.play(move)
+		}
+		if test.result != g.PlayerHasMovedInSet(Player{"Simone"}, test.set) {
+			t.Error("Should be %b", test.result)
+		}
 	}
 }
