@@ -126,3 +126,11 @@ func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
 	}
 	return setItemFound == 3
 }
+
+func (g *Game) CurrentPlayer() Player {
+	return g.players[len(g.turns())%2]
+}
+
+func (g *Game) NextPlayer() Player {
+	return g.players[(len(g.turns())+1)%2]
+}

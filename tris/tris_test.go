@@ -267,3 +267,39 @@ func TestTrisIsDone(t *testing.T) {
 		}
 	}
 }
+
+func TestCurrentPlayerIsAvailableAndChangeEachTurn(t *testing.T) {
+	var g Game
+	firstPlayer := Player{"Simone"}
+	secondPlayer := Player{"Demo"}
+	g.AddPlayer(firstPlayer)
+	g.AddPlayer(secondPlayer)
+
+	if g.CurrentPlayer() != firstPlayer {
+		t.Error("Current player should be firstPlayer one")
+	}
+
+	g.Play(1)
+
+	if g.CurrentPlayer() != secondPlayer {
+		t.Error("Current player should be secondPlayer one")
+	}
+}
+
+func TestNextPlayerIsAvailableAndChangeEachTurn(t *testing.T) {
+	var g Game
+	firstPlayer := Player{"Simone"}
+	secondPlayer := Player{"Demo"}
+	g.AddPlayer(firstPlayer)
+	g.AddPlayer(secondPlayer)
+
+	if g.NextPlayer() != secondPlayer {
+		t.Error("Current player should be secondPlayer one")
+	}
+
+	g.Play(1)
+
+	if g.NextPlayer() != firstPlayer {
+		t.Error("Current player should be firstPlayer one")
+	}
+}

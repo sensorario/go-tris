@@ -16,13 +16,14 @@ func main() {
 	fmt.Println("Simulate a real match")
 	sequence := []int{1, 4, 2, 5, 3}
 	for _, play := range sequence {
-		g.Play(play)
-		if true == g.TrisIsDone() {
-			fmt.Println("You win!!!")
+		if false == g.TrisIsDone() {
+			g.Play(play)
 		}
 	}
 
-	fmt.Println("Declare game as ended")
-
-	fmt.Println("Declare winner if there is one")
+	if true == g.TrisIsDone() {
+		fmt.Printf("%s wins!!", g.NextPlayer().Name)
+	} else {
+		fmt.Println("Nobody wins")
+	}
 }
