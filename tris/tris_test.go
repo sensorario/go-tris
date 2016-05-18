@@ -45,7 +45,7 @@ func TestGameMovesCountEachTurnPlayed(t *testing.T) {
 	var g Game
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
-	g.play(7)
+	g.Play(7)
 	if 1 != len(g.turns()) {
 		t.Error(
 			"Game should not have",
@@ -74,7 +74,7 @@ func TestCurrentPlayerChangeAfterTurn(t *testing.T) {
 				g.players[turnToPlay%2],
 			)
 		}
-		g.play(7)
+		g.Play(7)
 		i++
 	}
 }
@@ -159,7 +159,7 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 	var g Game
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
-	if -1 != g.play(42) {
+	if -1 != g.Play(42) {
 		t.Error(
 			"42 should not be valid as position",
 		)
@@ -171,9 +171,9 @@ func TestValidGameReturnsZero(t *testing.T) {
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
 	for i := 1; i < 10; i++ {
-		if playResult := g.play(i); 0 != playResult {
+		if playResult := g.Play(i); 0 != playResult {
 			t.Error(
-				"g.play("+string(i)+") should return zero instead of",
+				"g.Play("+string(i)+") should return zero instead of",
 				string(playResult),
 			)
 		}
@@ -184,9 +184,9 @@ func TestTileCannotBeSelectedTwice(t *testing.T) {
 	var g Game
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
-	g.play(3)
-	if -1 != g.play(3) {
-		t.Error("g.play(position int) should not accept same position twice")
+	g.Play(3)
+	if -1 != g.Play(3) {
+		t.Error("g.pLay(position int) should not accept same position twice")
 	}
 }
 
@@ -195,7 +195,7 @@ func TestWhenAllTilesAreOccupiedGameStatusIsEnd(t *testing.T) {
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
 	for i := 1; i <= 9; i++ {
-		g.play(i)
+		g.Play(i)
 	}
 	if "End" != g.status() {
 		t.Error("g.status() must be End when there are no more cells")
@@ -208,7 +208,7 @@ func TestCannotPlayMoreThanNineTimes(t *testing.T) {
 	g.AddPlayer(Player{"Simone"})
 	g.AddPlayer(Player{"Demo"})
 	for i := 1; i <= 10; i++ {
-		result = g.play(i)
+		result = g.Play(i)
 	}
 	if result != -1 {
 		t.Error("FAIL")
@@ -232,7 +232,7 @@ func TestSetPresenceInTurns(t *testing.T) {
 		g.AddPlayer(Player{"Simone"})
 		g.AddPlayer(Player{"Demo"})
 		for _, move := range test.turns {
-			g.play(move)
+			g.Play(move)
 		}
 		result := g.PlayerHasMovedInSet(Player{"Simone"}, test.set)
 		if test.trisIsDone != result {
@@ -260,7 +260,7 @@ func TestTrisIsDone(t *testing.T) {
 		g.AddPlayer(Player{"Simone"})
 		g.AddPlayer(Player{"Demo"})
 		for _, move := range test.turns {
-			g.play(move)
+			g.Play(move)
 		}
 		if g.TrisIsDone() != true {
 			t.Errorf("TrisIsDone is not working with %d,%d,%d. ", test.set[0], test.set[1], test.set[2])

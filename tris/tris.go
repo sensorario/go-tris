@@ -44,7 +44,7 @@ func (g *Game) shouldPlay() (p Player) {
 	return
 }
 
-func (g *Game) play(position int) int {
+func (g *Game) Play(position int) int {
 	if position < 0 || position > 9 {
 		return -1
 	}
