@@ -70,6 +70,24 @@ func (g *Game) TrisIsDone() bool {
 	return g.trisIsDone
 }
 
+func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
+	setItemFound := 0
+	for _, pos := range positions {
+		if g.playerHasMovedIn(p, pos) {
+			setItemFound++
+		}
+	}
+	return setItemFound == 3
+}
+
+func (g *Game) CurrentPlayer() Player {
+	return g.players[len(g.turns())%2]
+}
+
+func (g *Game) NextPlayer() Player {
+	return g.players[(len(g.turns())+1)%2]
+}
+
 func (g *Game) shouldPlay() (p Player) {
 	p = g.players[len(g.turns())%2]
 	return
@@ -98,22 +116,4 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 		}
 	}
 	return false
-}
-
-func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
-	setItemFound := 0
-	for _, pos := range positions {
-		if g.playerHasMovedIn(p, pos) {
-			setItemFound++
-		}
-	}
-	return setItemFound == 3
-}
-
-func (g *Game) CurrentPlayer() Player {
-	return g.players[len(g.turns())%2]
-}
-
-func (g *Game) NextPlayer() Player {
-	return g.players[(len(g.turns())+1)%2]
 }
