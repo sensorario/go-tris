@@ -6,21 +6,32 @@ import (
 )
 
 func main() {
-	fmt.Println("Tris!")
-
-	fmt.Println("Add players!")
+	// Add players
 	var g tris.Game
 	g.AddPlayer(tris.Player{"Simone"})
 	g.AddPlayer(tris.Player{"Demo"})
 
+	// Play the game
+	/*
+		the 3x3 tris board
+
+		| 1 | 2 | 3 |
+		| 4 | 5 | 6 |
+		| 7 | 8 | 9 |
+	*/
 	fmt.Println("Simulate a real match")
-	sequence := []int{1, 4, 2, 5, 3}
-	for _, play := range sequence {
-		if false == g.TrisIsDone() {
-			g.Play(play)
-		}
+	cellSelectedInEachTurn := []int{
+		1, // Simone
+		4, // Demo
+		2, // Simone
+		5, // ..
+		3,
+	}
+	for _, selectedCell := range cellSelectedInEachTurn {
+		g.Play(selectedCell)
 	}
 
+	// Send result's feedback
 	if true == g.TrisIsDone() {
 		fmt.Printf("%s wins!!", g.NextPlayer().Name)
 	} else {
