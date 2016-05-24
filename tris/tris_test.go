@@ -5,10 +5,7 @@ import (
 )
 
 func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
-	if -1 != g.Play(42) {
+	if g := game(); -1 != g.Play(42) {
 		t.Error(
 			"42 should not be valid as position",
 		)
@@ -16,9 +13,7 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 }
 
 func TestValidGameReturnsZero(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
+	g := game()
 	for i := 1; i < 10; i++ {
 		if playResult := g.Play(i); 0 != playResult {
 			t.Error(
@@ -30,9 +25,7 @@ func TestValidGameReturnsZero(t *testing.T) {
 }
 
 func TestTileCannotBeSelectedTwice(t *testing.T) {
-	var g Game
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
+	g := game()
 	g.Play(3)
 	if -1 != g.Play(3) {
 		t.Error("g.pLay(position int) should not accept same position twice")
@@ -52,9 +45,7 @@ func TestSetPresenceInTurns(t *testing.T) {
 		{[]int{3, 2, 6, 4, 9}, [3]int{3, 6, 9}, true},
 	}
 	for _, test := range tests {
-		var g Game
-		g.AddPlayer(Player{"Simone"})
-		g.AddPlayer(Player{"Demo"})
+		g := game()
 		for _, move := range test.turns {
 			g.Play(move)
 		}
@@ -80,9 +71,7 @@ func TestTrisIsDone(t *testing.T) {
 		{[]int{3, 2, 5, 4, 7}, [3]int{3, 5, 7}},
 	}
 	for _, test := range tests {
-		var g Game
-		g.AddPlayer(Player{"Simone"})
-		g.AddPlayer(Player{"Demo"})
+		g := game()
 		for _, move := range test.turns {
 			g.Play(move)
 		}
@@ -109,4 +98,10 @@ func TestCurrentAndNextPlayerAreDifferentAndChangeInEachTurn(t *testing.T) {
 			t.Error("Current player should be ", players[i%2])
 		}
 	}
+}
+
+func game() (g Game) {
+	g.AddPlayer(Player{"Simone"})
+	g.AddPlayer(Player{"Demo"})
+	return g
 }
