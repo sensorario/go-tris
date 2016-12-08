@@ -102,6 +102,10 @@ func (g *Game) shouldPlay() (p Player) {
 	return
 }
 
+func (g *Game) AvailableTile() int {
+	return 9 - len(g.moves)
+}
+
 func (g *Game) turns() []move {
 	return g.moves
 }

@@ -12,6 +12,25 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 	}
 }
 
+func TestCountAvailableTiles(t *testing.T) {
+	g := game()
+	availableTiles := 9
+
+	if availableTiles != g.AvailableTile() {
+		t.Error(
+			"9 tiles should be available",
+		)
+	}
+
+	g.Play(1)
+
+	if availableTiles-1 != g.AvailableTile() {
+		t.Error(
+			"8 tiles should be available",
+		)
+	}
+}
+
 func TestValidGameReturnsZero(t *testing.T) {
 	g := game()
 	for i := 1; i < 10; i++ {
