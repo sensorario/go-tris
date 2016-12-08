@@ -32,6 +32,18 @@ func TestTileCannotBeSelectedTwice(t *testing.T) {
 	}
 }
 
+func TestKnowIfTileIsStillAvailablew(t *testing.T) {
+	g := game()
+	isAvailable := true
+	if isAvailable != g.IsAvailable(3) {
+		t.Error("position should be available")
+	}
+	g.Play(3)
+	if isAvailable == g.IsAvailable(3) {
+		t.Error("g.pLay(position int) should know if a position is still available or not")
+	}
+}
+
 func TestSetPresenceInTurns(t *testing.T) {
 	var tests = []struct {
 		turns      []int

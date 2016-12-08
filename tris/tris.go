@@ -29,6 +29,15 @@ func (g *Game) AddPlayer(p Player) {
 	g.players = append(g.players, p)
 }
 
+func (g *Game) IsAvailable(position int) bool {
+	for _, m := range g.turns() {
+		if m.position == position {
+			return false
+		}
+	}
+	return true
+}
+
 func (g *Game) Play(position int) int {
 	if position < 0 || position > 9 {
 		return -1
