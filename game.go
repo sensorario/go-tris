@@ -3,6 +3,7 @@ package main
 import (
 	"./tris"
 	"fmt"
+	"strconv"
 )
 
 func main() {
@@ -28,6 +29,7 @@ func main() {
 		3,
 	}
 	for _, selectedCell := range cellSelectedInEachTurn {
+		fmt.Println("Available tiles: " + strconv.Itoa(g.AvailableTile()))
 		g.Play(selectedCell)
 	}
 
