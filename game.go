@@ -9,29 +9,25 @@ import (
 )
 
 func randInt(min int, max int) int {
-	rand.Seed(time.Now().UTC().UnixNano())
 	return min + rand.Intn(max-min)
 }
 
 func main() {
 	var g tris.Game
 
+	rand.Seed(time.Now().UTC().UnixNano())
+
 	g.AddPlayer(tris.Player{"Simone", "x"})
 	g.AddPlayer(tris.Player{"Demo", "o"})
 
 	fmt.Println("Simulate a real match")
 
-	for {
+	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
 		cell := randInt(1, 10)
-
 		if true == g.IsAvailable(cell) {
 			fmt.Println("Available tiles: " + strconv.Itoa(g.AvailableTile()))
 			g.Play(cell)
 			fmt.Println(g.OutputBoard())
-		}
-
-		if true == g.TrisIsDone() {
-			break
 		}
 	}
 
