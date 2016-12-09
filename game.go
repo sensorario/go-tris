@@ -2,8 +2,10 @@ package main
 
 import (
 	"./tris"
+	"bufio"
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 	"time"
 )
@@ -12,14 +14,24 @@ func randInt(min int, max int) int {
 	return min + rand.Intn(max-min)
 }
 
+func getUser(player string) string {
+	fmt.Print(player)
+	scan := bufio.NewScanner(os.Stdin)
+	scan.Scan()
+	return scan.Text()
+}
+
 func main() {
+	p1 := getUser("First player: ")
+	p2 := getUser("Second player: ")
+
 	var g tris.Game
 
 	seed := time.Now().UTC().UnixNano()
 	rand.Seed(seed)
 
-	g.AddPlayer(tris.Player{"Simone", "x"})
-	g.AddPlayer(tris.Player{"Demo", "o"})
+	g.AddPlayer(tris.Player{p1, "x"})
+	g.AddPlayer(tris.Player{p2, "o"})
 
 	fmt.Println("Simulate a real match")
 
