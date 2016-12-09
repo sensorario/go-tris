@@ -1,7 +1,8 @@
 package tris
 
 type Player struct {
-	Name string
+	Name   string
+	Symbol string
 }
 
 type Game struct {
@@ -15,6 +16,7 @@ type Game struct {
 type move struct {
 	player   Player
 	position int
+	symbol   string
 }
 
 type board struct {
@@ -50,7 +52,7 @@ func (g *Game) Play(position int) int {
 	currentPlayer := g.shouldPlay()
 	g.moves = append(
 		g.moves,
-		move{currentPlayer, position},
+		move{currentPlayer, position, g.CurrentPlayer().Symbol},
 	)
 	var winSets = []struct {
 		winSet [3]int
@@ -104,6 +106,56 @@ func (g *Game) shouldPlay() (p Player) {
 
 func (g *Game) AvailableTile() int {
 	return 9 - len(g.moves)
+}
+
+func (g *Game) OutputBoard() string {
+	aa := " "
+	ab := " "
+	ac := " "
+
+	ba := " "
+	bb := " "
+	bc := " "
+
+	ca := " "
+	cb := " "
+	cc := " "
+
+	for _, m := range g.turns() {
+		if m.position == 1 {
+			aa = m.symbol
+		}
+		if m.position == 2 {
+			ab = m.symbol
+		}
+		if m.position == 3 {
+			ac = m.symbol
+		}
+		if m.position == 4 {
+			ba = m.symbol
+		}
+		if m.position == 5 {
+			bb = m.symbol
+		}
+		if m.position == 6 {
+			bc = m.symbol
+		}
+		if m.position == 7 {
+			ca = m.symbol
+		}
+		if m.position == 8 {
+			cb = m.symbol
+		}
+		if m.position == 9 {
+			cc = m.symbol
+		}
+	}
+
+	return " " + aa + " | " + ab + " | " + ac + " \n" +
+		"---|---|---\n" +
+		" " + ba + " | " + bb + " | " + bc + " \n" +
+		"---|---|---\n" +
+		" " + ca + " | " + cb + " | " + cc + " \n"
 }
 
 func (g *Game) turns() []move {

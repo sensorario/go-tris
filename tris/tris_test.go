@@ -1,6 +1,7 @@
 package tris
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -8,6 +9,16 @@ func TestInvalidPositionReturnNegativeUnit(t *testing.T) {
 	if g := game(); -1 != g.Play(42) {
 		t.Error(
 			"42 should not be valid as position",
+		)
+	}
+}
+
+func TestEmptyBoardShouldBe(t *testing.T) {
+	g := game()
+	empty := "   |   |   \n---|---|---\n   |   |   \n---|---|---\n   |   |   \n"
+	if g.OutputBoard() != empty {
+		t.Error(
+			"Empty board should be different",
 		)
 	}
 }
@@ -27,6 +38,53 @@ func TestCountAvailableTiles(t *testing.T) {
 	if availableTiles-1 != g.AvailableTile() {
 		t.Error(
 			"8 tiles should be available",
+		)
+	}
+}
+
+func TestFirstMoveMarkTheBoard(t *testing.T) {
+	g := game()
+	player := g.CurrentPlayer().Symbol
+	g.Play(1)
+	boardWithMark := " " + player + " |   |   \n---|---|---\n   |   |   \n---|---|---\n   |   |   \n"
+	if g.OutputBoard() != boardWithMark {
+		fmt.Println(g.OutputBoard())
+		fmt.Println(boardWithMark)
+		t.Error(
+			"Board should be marked differently",
+		)
+	}
+}
+
+func TestSecondMoves(t *testing.T) {
+	g := game()
+	firstPlayerSymbol := g.CurrentPlayer().Symbol
+	g.Play(1)
+	secondPlayerSymbol := g.CurrentPlayer().Symbol
+	g.Play(2)
+	boardWithMark := " " + firstPlayerSymbol + " | " + secondPlayerSymbol + " |   \n---|---|---\n   |   |   \n---|---|---\n   |   |   \n"
+	if g.OutputBoard() != boardWithMark {
+		fmt.Println(g.OutputBoard())
+		fmt.Println(boardWithMark)
+		t.Error(
+			"Board should be marked differently",
+		)
+	}
+}
+
+func TestThirdMoves(t *testing.T) {
+	g := game()
+	firstPlayerSymbol := g.CurrentPlayer().Symbol
+	g.Play(1)
+	secondPlayerSymbol := g.CurrentPlayer().Symbol
+	g.Play(2)
+	g.Play(4)
+	boardWithMark := " " + firstPlayerSymbol + " | " + secondPlayerSymbol + " |   \n---|---|---\n " + firstPlayerSymbol + " |   |   \n---|---|---\n   |   |   \n"
+	if g.OutputBoard() != boardWithMark {
+		fmt.Println(g.OutputBoard())
+		fmt.Println(boardWithMark)
+		t.Error(
+			"Board should be marked differently",
 		)
 	}
 }
@@ -80,7 +138,7 @@ func TestSetPresenceInTurns(t *testing.T) {
 		for _, move := range test.turns {
 			g.Play(move)
 		}
-		result := g.PlayerHasMovedInSet(Player{"Simone"}, test.set)
+		result := g.PlayerHasMovedInSet(Player{"Simone", "x"}, test.set)
 		if test.trisIsDone != result {
 			t.Errorf("Set %d, %d, %d = %v", test.set[0], test.set[1], test.set[2], test.trisIsDone)
 		}
@@ -115,8 +173,8 @@ func TestTrisIsDone(t *testing.T) {
 func TestCurrentAndNextPlayerAreDifferentAndChangeInEachTurn(t *testing.T) {
 	var g Game
 	players := []Player{
-		Player{"Simone"},
-		Player{"Demo"},
+		Player{"Simone", "x"},
+		Player{"Demo", "o"},
 	}
 	g.AddPlayer(players[0])
 	g.AddPlayer(players[1])
@@ -132,7 +190,7 @@ func TestCurrentAndNextPlayerAreDifferentAndChangeInEachTurn(t *testing.T) {
 }
 
 func game() (g Game) {
-	g.AddPlayer(Player{"Simone"})
-	g.AddPlayer(Player{"Demo"})
+	g.AddPlayer(Player{"Simone", "x"})
+	g.AddPlayer(Player{"Demo", "o"})
 	return g
 }
