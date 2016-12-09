@@ -15,7 +15,8 @@ func randInt(min int, max int) int {
 func main() {
 	var g tris.Game
 
-	rand.Seed(time.Now().UTC().UnixNano())
+	seed := time.Now().UTC().UnixNano()
+	rand.Seed(seed)
 
 	g.AddPlayer(tris.Player{"Simone", "x"})
 	g.AddPlayer(tris.Player{"Demo", "o"})
