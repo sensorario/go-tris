@@ -3,37 +3,38 @@ package main
 import (
 	"./tris"
 	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
+func randInt(min int, max int) int {
+	rand.Seed(time.Now().UTC().UnixNano())
+	return min + rand.Intn(max-min)
+}
+
 func main() {
-	// Add players
 	var g tris.Game
-	g.AddPlayer(tris.Player{"Simone"})
-	g.AddPlayer(tris.Player{"Demo"})
 
-	// Play the game
-	/*
-		the 3x3 tris board
+	g.AddPlayer(tris.Player{"Simone", "x"})
+	g.AddPlayer(tris.Player{"Demo", "o"})
 
-		| 1 | 2 | 3 |
-		| 4 | 5 | 6 |
-		| 7 | 8 | 9 |
-	*/
 	fmt.Println("Simulate a real match")
-	cellSelectedInEachTurn := []int{
-		1, // Simone
-		4, // Demo
-		2, // Simone
-		5, // ..
-		3,
-	}
-	for _, selectedCell := range cellSelectedInEachTurn {
-		fmt.Println("Available tiles: " + strconv.Itoa(g.AvailableTile()))
-		g.Play(selectedCell)
+
+	for {
+		cell := randInt(1, 10)
+
+		if true == g.IsAvailable(cell) {
+			fmt.Println("Available tiles: " + strconv.Itoa(g.AvailableTile()))
+			g.Play(cell)
+			fmt.Println(g.OutputBoard())
+		}
+
+		if true == g.TrisIsDone() {
+			break
+		}
 	}
 
-	// Send result's feedback
 	if true == g.TrisIsDone() {
 		fmt.Printf("%s wins!!", g.NextPlayer().Name)
 	} else {
