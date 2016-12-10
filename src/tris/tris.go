@@ -186,39 +186,24 @@ func (g *Game) OutputBoard() string {
 	cc := " "
 
 	for _, m := range g.turns() {
-		if m.position == 1 {
+		switch m.position {
+		case 1:
 			aa = m.symbol
-		}
-
-		if m.position == 2 {
+		case 2:
 			ab = m.symbol
-		}
-
-		if m.position == 3 {
+		case 3:
 			ac = m.symbol
-		}
-
-		if m.position == 4 {
+		case 4:
 			ba = m.symbol
-		}
-
-		if m.position == 5 {
+		case 5:
 			bb = m.symbol
-		}
-
-		if m.position == 6 {
+		case 6:
 			bc = m.symbol
-		}
-
-		if m.position == 7 {
+		case 7:
 			ca = m.symbol
-		}
-
-		if m.position == 8 {
+		case 8:
 			cb = m.symbol
-		}
-
-		if m.position == 9 {
+		case 9:
 			cc = m.symbol
 		}
 	}
