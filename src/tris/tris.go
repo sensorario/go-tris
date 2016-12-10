@@ -1,5 +1,11 @@
 package tris
 
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
 type Player struct {
 	Name   string
 	Symbol string
@@ -169,4 +175,11 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 		}
 	}
 	return false
+}
+
+func GetUser(player string) string {
+	fmt.Print(player)
+	scan := bufio.NewScanner(os.Stdin)
+	scan.Scan()
+	return scan.Text()
 }
