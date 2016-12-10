@@ -1,10 +1,7 @@
 package tris
 
 import (
-	"bufio"
-	"fmt"
 	"math/rand"
-	"os"
 )
 
 type Player struct {
@@ -164,14 +161,6 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 	}
 
 	return false
-}
-
-func GetUser(player string) string {
-	fmt.Print(player)
-	scan := bufio.NewScanner(os.Stdin)
-	scan.Scan()
-
-	return scan.Text()
 }
 
 func GetRandomCell(min int, max int) int {
