@@ -39,7 +39,7 @@ func (g *Game) AddPlayer(p Player) {
 }
 
 func (g *Game) IsAvailable(position int) bool {
-	for _, m := range g.turns() {
+	for _, m := range g.moves {
 		if m.position == position {
 			return false
 		}
@@ -53,7 +53,7 @@ func (g *Game) Play(position int) int {
 		return -1
 	}
 
-	for _, m := range g.turns() {
+	for _, m := range g.moves {
 		if m.position == position {
 			return -1
 		}
@@ -105,15 +105,15 @@ func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
 }
 
 func (g *Game) CurrentPlayer() Player {
-	return g.players[len(g.turns())%2]
+	return g.players[len(g.moves)%2]
 }
 
 func (g *Game) NextPlayer() Player {
-	return g.players[(len(g.turns())+1)%2]
+	return g.players[(len(g.moves)+1)%2]
 }
 
 func (g *Game) shouldPlay() (p Player) {
-	p = g.players[len(g.turns())%2]
+	p = g.players[len(g.moves)%2]
 
 	return
 }
@@ -129,7 +129,7 @@ var keys = map[int]string{
 }
 
 func (g *Game) render(board map[string]string) string {
-	for _, m := range g.turns() {
+	for _, m := range g.moves {
 		board[keys[m.position]] = m.symbol
 	}
 
@@ -156,12 +156,8 @@ func (g *Game) OutputBoard() string {
 	})
 }
 
-func (g *Game) turns() []move {
-	return g.moves
-}
-
 func (g *Game) playerHasMovedIn(p Player, position int) bool {
-	for _, m := range g.turns() {
+	for _, m := range g.moves {
 		if m.player == p && m.position == position {
 			return true
 		}
