@@ -1,13 +1,13 @@
 package main
 
 import (
+	"./src/console"
 	"./src/tris"
 	"./src/utils"
 	"bufio"
 	"fmt"
 	"math/rand"
 	"os"
-	"os/exec"
 	"strconv"
 	"time"
 )
@@ -17,9 +17,7 @@ func randInt(min int, max int) int {
 }
 
 func main() {
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	cmd.Run()
+	console.Clear()
 
 	p1 := utils.GetUser("First player: ")
 	p2 := "Computer"
@@ -36,9 +34,7 @@ func main() {
 
 	var cell int
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
-		cmd := exec.Command("clear")
-		cmd.Stdout = os.Stdout
-		cmd.Run()
+		console.Clear()
 
 		cell = randInt(1, 10)
 
