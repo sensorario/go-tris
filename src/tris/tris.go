@@ -44,6 +44,7 @@ func (g *Game) IsAvailable(position int) bool {
 			return false
 		}
 	}
+
 	return true
 }
 
@@ -79,10 +80,7 @@ func (g *Game) Play(position int) int {
 	}
 
 	for _, set := range winSets {
-		if g.PlayerHasMovedInSet(
-			currentPlayer,
-			set.winSet,
-		) {
+		if g.PlayerHasMovedInSet(currentPlayer, set.winSet) {
 			g.trisIsDone = true
 		}
 	}
@@ -116,6 +114,7 @@ func (g *Game) NextPlayer() Player {
 
 func (g *Game) shouldPlay() (p Player) {
 	p = g.players[len(g.turns())%2]
+
 	return
 }
 
@@ -123,96 +122,38 @@ func (g *Game) AvailableTile() int {
 	return 9 - len(g.moves)
 }
 
-func (g *Game) OutputHumanBoard() string {
-	aa := "1"
-	ab := "2"
-	ac := "3"
-
-	ba := "4"
-	bb := "5"
-	bc := "6"
-
-	ca := "7"
-	cb := "8"
-	cc := "9"
-
-	for _, m := range g.turns() {
-		if m.position == 1 {
-			aa = m.symbol
-		}
-		if m.position == 2 {
-			ab = m.symbol
-		}
-		if m.position == 3 {
-			ac = m.symbol
-		}
-		if m.position == 4 {
-			ba = m.symbol
-		}
-		if m.position == 5 {
-			bb = m.symbol
-		}
-		if m.position == 6 {
-			bc = m.symbol
-		}
-		if m.position == 7 {
-			ca = m.symbol
-		}
-		if m.position == 8 {
-			cb = m.symbol
-		}
-		if m.position == 9 {
-			cc = m.symbol
-		}
-	}
-
-	return " " + aa + " | " + ab + " | " + ac + " \n" +
-		"---|---|---\n" +
-		" " + ba + " | " + bb + " | " + bc + " \n" +
-		"---|---|---\n" +
-		" " + ca + " | " + cb + " | " + cc + " \n"
+var keys = map[int]string{
+	1: "aa", 2: "ab", 3: "ac",
+	4: "ba", 5: "bb", 6: "bc",
+	7: "ca", 8: "cb", 9: "cc",
 }
-func (g *Game) OutputBoard() string {
-	aa := " "
-	ab := " "
-	ac := " "
 
-	ba := " "
-	bb := " "
-	bc := " "
-
-	ca := " "
-	cb := " "
-	cc := " "
-
+func (g *Game) render(board map[string]string) string {
 	for _, m := range g.turns() {
-		switch m.position {
-		case 1:
-			aa = m.symbol
-		case 2:
-			ab = m.symbol
-		case 3:
-			ac = m.symbol
-		case 4:
-			ba = m.symbol
-		case 5:
-			bb = m.symbol
-		case 6:
-			bc = m.symbol
-		case 7:
-			ca = m.symbol
-		case 8:
-			cb = m.symbol
-		case 9:
-			cc = m.symbol
-		}
+		board[keys[m.position]] = m.symbol
 	}
 
-	return "\t " + aa + " | " + ab + " | " + ac + " \n" +
-		"\t---|---|---\n" +
-		"\t " + ba + " | " + bb + " | " + bc + " \n" +
-		"\t---|---|---\n" +
-		"\t " + ca + " | " + cb + " | " + cc + " \n"
+	return " " + board[keys[1]] + " | " + board[keys[2]] + " | " + board[keys[3]] + " \n" +
+		"---|---|---\n" +
+		" " + board[keys[4]] + " | " + board[keys[5]] + " | " + board[keys[6]] + " \n" +
+		"---|---|---\n" +
+		" " + board[keys[7]] + " | " + board[keys[8]] + " | " + board[keys[9]] + " \n"
+}
+
+func (g *Game) OutputHumanBoard() string {
+	return g.render(map[string]string{
+		"aa": "1", "ab": "2", "ac": "3",
+		"ba": "4", "bb": "5", "bc": "6",
+		"ca": "7", "cb": "8", "cc": "9",
+	})
+}
+
+func (g *Game) OutputBoard() string {
+	return g.render(map[string]string{
+		"aa": " ", "ab": " ", "ac": " ",
+		"ba": " ", "bb": " ", "bc": " ",
+		"ca": " ", "cb": " ", "cc": " ",
+	})
 }
 
 func (g *Game) turns() []move {

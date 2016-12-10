@@ -18,7 +18,7 @@ func main() {
 
 	console.Clear()
 
-	p1 := utils.GetUser("First player: ")
+	p1 := utils.GetUser("Your name: ")
 	p2 := "Computer"
 
 	seed := time.Now().UTC().UnixNano()
