@@ -3,6 +3,7 @@ package tris
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 )
 
@@ -50,16 +51,20 @@ func (g *Game) Play(position int) int {
 	if position < 0 || position > 9 {
 		return -1
 	}
+
 	for _, m := range g.turns() {
 		if m.position == position {
 			return -1
 		}
 	}
+
 	currentPlayer := g.shouldPlay()
+
 	g.moves = append(
 		g.moves,
 		move{currentPlayer, position, g.CurrentPlayer().Symbol},
 	)
+
 	var winSets = []struct {
 		winSet [3]int
 	}{
@@ -72,6 +77,7 @@ func (g *Game) Play(position int) int {
 		{[3]int{3, 6, 9}},
 		{[3]int{3, 5, 7}},
 	}
+
 	for _, set := range winSets {
 		if g.PlayerHasMovedInSet(
 			currentPlayer,
@@ -80,6 +86,7 @@ func (g *Game) Play(position int) int {
 			g.trisIsDone = true
 		}
 	}
+
 	return 0
 }
 
@@ -89,11 +96,13 @@ func (g *Game) TrisIsDone() bool {
 
 func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
 	setItemFound := 0
+
 	for _, pos := range positions {
 		if g.playerHasMovedIn(p, pos) {
 			setItemFound++
 		}
 	}
+
 	return setItemFound == 3
 }
 
@@ -180,27 +189,35 @@ func (g *Game) OutputBoard() string {
 		if m.position == 1 {
 			aa = m.symbol
 		}
+
 		if m.position == 2 {
 			ab = m.symbol
 		}
+
 		if m.position == 3 {
 			ac = m.symbol
 		}
+
 		if m.position == 4 {
 			ba = m.symbol
 		}
+
 		if m.position == 5 {
 			bb = m.symbol
 		}
+
 		if m.position == 6 {
 			bc = m.symbol
 		}
+
 		if m.position == 7 {
 			ca = m.symbol
 		}
+
 		if m.position == 8 {
 			cb = m.symbol
 		}
+
 		if m.position == 9 {
 			cc = m.symbol
 		}
@@ -223,6 +240,7 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 			return true
 		}
 	}
+
 	return false
 }
 
@@ -230,5 +248,10 @@ func GetUser(player string) string {
 	fmt.Print(player)
 	scan := bufio.NewScanner(os.Stdin)
 	scan.Scan()
+
 	return scan.Text()
+}
+
+func GetRandomCell(min int, max int) int {
+	return min + rand.Intn(max-min)
 }

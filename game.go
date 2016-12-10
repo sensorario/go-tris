@@ -12,17 +12,14 @@ import (
 	"time"
 )
 
-func randInt(min int, max int) int {
-	return min + rand.Intn(max-min)
-}
-
 func main() {
+	var cell int
+	var g tris.Game
+
 	console.Clear()
 
 	p1 := utils.GetUser("First player: ")
 	p2 := "Computer"
-
-	var g tris.Game
 
 	seed := time.Now().UTC().UnixNano()
 	rand.Seed(seed)
@@ -32,11 +29,8 @@ func main() {
 
 	fmt.Println("Simulate a real match")
 
-	var cell int
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
 		console.Clear()
-
-		cell = randInt(1, 10)
 
 		if g.CurrentPlayer().Name == p1 {
 			fmt.Println("Available moves:\n")
@@ -48,6 +42,8 @@ func main() {
 			scan.Scan()
 			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
 			cell = int(n)
+		} else {
+			cell = tris.GetRandomCell(1, 10)
 		}
 
 		if true == g.IsAvailable(cell) {
