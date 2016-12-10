@@ -114,6 +114,55 @@ func (g *Game) AvailableTile() int {
 	return 9 - len(g.moves)
 }
 
+func (g *Game) OutputHumanBoard() string {
+	aa := "1"
+	ab := "2"
+	ac := "3"
+
+	ba := "4"
+	bb := "5"
+	bc := "6"
+
+	ca := "7"
+	cb := "8"
+	cc := "9"
+
+	for _, m := range g.turns() {
+		if m.position == 1 {
+			aa = m.symbol
+		}
+		if m.position == 2 {
+			ab = m.symbol
+		}
+		if m.position == 3 {
+			ac = m.symbol
+		}
+		if m.position == 4 {
+			ba = m.symbol
+		}
+		if m.position == 5 {
+			bb = m.symbol
+		}
+		if m.position == 6 {
+			bc = m.symbol
+		}
+		if m.position == 7 {
+			ca = m.symbol
+		}
+		if m.position == 8 {
+			cb = m.symbol
+		}
+		if m.position == 9 {
+			cc = m.symbol
+		}
+	}
+
+	return " " + aa + " | " + ab + " | " + ac + " \n" +
+		"---|---|---\n" +
+		" " + ba + " | " + bb + " | " + bc + " \n" +
+		"---|---|---\n" +
+		" " + ca + " | " + cb + " | " + cc + " \n"
+}
 func (g *Game) OutputBoard() string {
 	aa := " "
 	ab := " "
@@ -157,11 +206,11 @@ func (g *Game) OutputBoard() string {
 		}
 	}
 
-	return " " + aa + " | " + ab + " | " + ac + " \n" +
-		"---|---|---\n" +
-		" " + ba + " | " + bb + " | " + bc + " \n" +
-		"---|---|---\n" +
-		" " + ca + " | " + cb + " | " + cc + " \n"
+	return "\t " + aa + " | " + ab + " | " + ac + " \n" +
+		"\t---|---|---\n" +
+		"\t " + ba + " | " + bb + " | " + bc + " \n" +
+		"\t---|---|---\n" +
+		"\t " + ca + " | " + cb + " | " + cc + " \n"
 }
 
 func (g *Game) turns() []move {

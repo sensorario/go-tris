@@ -3,8 +3,12 @@ package main
 import (
 	"./src/tris"
 	"./src/utils"
+	"bufio"
 	"fmt"
 	"math/rand"
+	"os"
+	"os/exec"
+	"strconv"
 	"time"
 )
 
@@ -13,8 +17,12 @@ func randInt(min int, max int) int {
 }
 
 func main() {
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+
 	p1 := utils.GetUser("First player: ")
-	p2 := utils.GetUser("Second player: ")
+	p2 := "Computer"
 
 	var g tris.Game
 
@@ -26,17 +34,35 @@ func main() {
 
 	fmt.Println("Simulate a real match")
 
+	var cell int
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
-		cell := randInt(1, 10)
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+
+		cell = randInt(1, 10)
+
+		if g.CurrentPlayer().Name == p1 {
+			fmt.Println("Available moves:\n")
+			fmt.Println(g.OutputHumanBoard())
+			fmt.Println("Clean board:\n")
+			fmt.Println(g.OutputBoard())
+			fmt.Print("Type a number between 1 and 9 (your choice): ")
+			scan := bufio.NewScanner(os.Stdin)
+			scan.Scan()
+			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
+			cell = int(n)
+		}
 
 		if true == g.IsAvailable(cell) {
 			g.Play(cell)
+			fmt.Println("\nFinal board:\n")
 			fmt.Println(g.OutputBoard())
 		}
 	}
 
 	if true == g.TrisIsDone() {
-		fmt.Printf("%s wins!!", g.NextPlayer().Name)
+		fmt.Printf("%s wins!!\n\n", g.NextPlayer().Name)
 	} else {
 		fmt.Println("Nobody wins")
 	}
