@@ -1,24 +1,29 @@
 package main
 
 import (
-	"./src/console"
 	"./src/tris"
-	"./src/utils"
 	"bufio"
 	"fmt"
 	"math/rand"
 	"os"
+	"os/exec"
 	"strconv"
 	"time"
 )
+
+func Clear() {
+	cmd := exec.Command("clear")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
 
 func main() {
 	var cell int
 	var g tris.Game
 
-	console.Clear()
+	Clear()
 
-	p1 := utils.GetUser("Your name: ")
+	p1 := GetUser("Your name: ")
 	p2 := "Computer"
 
 	seed := time.Now().UTC().UnixNano()
@@ -30,7 +35,7 @@ func main() {
 	fmt.Println("Simulate a real match")
 
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
-		console.Clear()
+		Clear()
 
 		if g.CurrentPlayer().Name == p1 {
 			fmt.Println("Available moves:\n")
@@ -58,4 +63,12 @@ func main() {
 	} else {
 		fmt.Println("Nobody wins")
 	}
+}
+
+func GetUser(player string) string {
+	fmt.Print(player)
+	scan := bufio.NewScanner(os.Stdin)
+	scan.Scan()
+
+	return scan.Text()
 }

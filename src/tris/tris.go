@@ -109,10 +109,8 @@ func (g *Game) NextPlayer() Player {
 	return g.players[(len(g.moves)+1)%2]
 }
 
-func (g *Game) shouldPlay() (p Player) {
-	p = g.players[len(g.moves)%2]
-
-	return
+func (g *Game) shouldPlay() Player {
+	return g.players[len(g.moves)%2]
 }
 
 func (g *Game) AvailableTile() int {
