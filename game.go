@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func Clear() {
+func clear() {
 	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
@@ -21,9 +21,9 @@ func main() {
 	var cell int
 	var g tris.Game
 
-	Clear()
+	clear()
 
-	p1 := GetUser("Your name: ")
+	p1 := getUser("Your name: ")
 	p2 := "Computer"
 
 	seed := time.Now().UTC().UnixNano()
@@ -35,7 +35,7 @@ func main() {
 	fmt.Println("Simulate a real match")
 
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
-		Clear()
+		clear()
 
 		if g.CurrentPlayer().Name == p1 {
 			fmt.Println("Available moves:\n")
@@ -65,7 +65,7 @@ func main() {
 	}
 }
 
-func GetUser(player string) string {
+func getUser(player string) string {
 	fmt.Print(player)
 	scan := bufio.NewScanner(os.Stdin)
 	scan.Scan()
