@@ -1,7 +1,6 @@
 package main
 
 import (
-	"./src/tris"
 	"bufio"
 	"fmt"
 	"math/rand"
@@ -19,7 +18,7 @@ func clear() {
 
 func main() {
 	var cell int
-	var g tris.Game
+	var g Game
 
 	clear()
 
@@ -29,8 +28,8 @@ func main() {
 	seed := time.Now().UTC().UnixNano()
 	rand.Seed(seed)
 
-	g.AddPlayer(tris.Player{p1, "x"})
-	g.AddPlayer(tris.Player{p2, "o"})
+	g.AddPlayer(Player{p1, "x"})
+	g.AddPlayer(Player{p2, "o"})
 
 	fmt.Println("Simulate a real match")
 
@@ -48,7 +47,7 @@ func main() {
 			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
 			cell = int(n)
 		} else {
-			cell = tris.GetRandomCell(1, 10)
+			cell = GetRandomCell(1, 10)
 		}
 
 		if true == g.IsAvailable(cell) {

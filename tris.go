@@ -1,4 +1,4 @@
-package tris
+package main
 
 import (
 	"math/rand"
