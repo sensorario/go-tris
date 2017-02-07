@@ -1,11 +1,11 @@
-# Build the program 
+# Build the program
 
 ```bash
-prompt> go build -o bin/game game.go
+prompt> go build
 ```
 
 # Execute the program
 
 ```bash
-prompt> bin/game
+prompt> ./game
 ```
