@@ -3,26 +3,21 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/sensorario/bashutil"
 	"math/rand"
 	"os"
-	"os/exec"
 	"strconv"
 	"time"
 )
-
-func clear() {
-	cmd := exec.Command("clear")
-	cmd.Stdout = os.Stdout
-	cmd.Run()
-}
 
 func main() {
 	var cell int
 	var g Game
 
-	clear()
+	bashutil.Clear()
 
-	p1 := getUser("Your name: ")
+	bashutil.Center("Your name: ")
+	p1 := getUser()
 	p2 := "Computer"
 
 	seed := time.Now().UTC().UnixNano()
@@ -34,7 +29,7 @@ func main() {
 	fmt.Println("Simulate a real match")
 
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
-		clear()
+		bashutil.Clear()
 
 		if g.CurrentPlayer().Name == p1 {
 			fmt.Println("Available moves:\n")
@@ -64,8 +59,7 @@ func main() {
 	}
 }
 
-func getUser(player string) string {
-	fmt.Print(player)
+func getUser() string {
 	scan := bufio.NewScanner(os.Stdin)
 	scan.Scan()
 
