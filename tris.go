@@ -35,6 +35,10 @@ func (g *Game) AddPlayer(p Player) {
 	g.players = append(g.players, p)
 }
 
+func (g *Game) Players() []Player {
+	return g.players
+}
+
 func (g *Game) IsAvailable(position int) bool {
 	for _, m := range g.moves {
 		if m.position == position {

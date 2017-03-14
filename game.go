@@ -26,17 +26,23 @@ func main() {
 	g.AddPlayer(Player{p1, "x"})
 	g.AddPlayer(Player{p2, "o"})
 
+	fmt.Println("Select first player")
+	players := g.Players()
+	randomPlayer := players[rand.Intn(2)]
+	starterName := randomPlayer.Name
+
 	fmt.Println("Simulate a real match")
 
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
 		bashutil.Clear()
 
-		if g.CurrentPlayer().Name == p1 {
-			fmt.Println("Available moves:\n")
-			fmt.Println(g.OutputHumanBoard())
-			fmt.Println("Clean board:\n")
-			fmt.Println(g.OutputBoard())
-			fmt.Print("Type a number between 1 and 9 (your choice): ")
+		fmt.Println("Available moves:\n")
+		fmt.Println(g.OutputHumanBoard())
+		fmt.Println("Clean board:\n")
+		fmt.Println(g.OutputBoard())
+		fmt.Print("Type a number between 1 and 9 (your choice): ")
+
+		if g.CurrentPlayer().Name == starterName {
 			scan := bufio.NewScanner(os.Stdin)
 			scan.Scan()
 			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
