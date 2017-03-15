@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #9] - improve turn's message
  - [close #7] - removes binary file from project
  - [close #4] - removes binary file from project
  - [close #3] - use external libraries for bash utilities
