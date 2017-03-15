@@ -40,7 +40,7 @@ func main() {
 		fmt.Println(g.OutputHumanBoard())
 		fmt.Println("Clean board:\n")
 		fmt.Println(g.OutputBoard())
-		fmt.Print("Type a number between 1 and 9 (your choice): ")
+		fmt.Printf("Type a number between 1 and 9 (%s's turn): ", g.CurrentPlayer().Name)
 
 		if g.CurrentPlayer().Name == starterName {
 			scan := bufio.NewScanner(os.Stdin)
