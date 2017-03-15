@@ -17,44 +17,58 @@ func main() {
 	bashutil.Clear()
 
 	bashutil.Center("Your name: ")
-	p1 := getUser()
-	p2 := "Computer"
+	pHuman := getUser()
+	pComputer := "Computer"
 
 	seed := time.Now().UTC().UnixNano()
 	rand.Seed(seed)
 
-	g.AddPlayer(Player{p1, "x"})
-	g.AddPlayer(Player{p2, "o"})
-
 	fmt.Println("Select first player")
-	players := g.Players()
-	randomPlayer := players[rand.Intn(2)]
-	starterName := randomPlayer.Name
+	randomNumber := rand.Intn(2)
 
-	fmt.Println("Simulate a real match")
+	if randomNumber == 0 {
+		g.AddPlayer(Player{pHuman, "x"})
+		g.AddPlayer(Player{pComputer, "o"})
+	} else {
+		g.AddPlayer(Player{pComputer, "x"})
+		g.AddPlayer(Player{pHuman, "o"})
+	}
+
+	fmt.Println("Start match")
+	turnNumber := 0
 
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
 		bashutil.Clear()
+
+		turnNumber++
 
 		fmt.Println("Available moves:\n")
 		fmt.Println(g.OutputHumanBoard())
 		fmt.Println("Clean board:\n")
 		fmt.Println(g.OutputBoard())
+		fmt.Printf("Starter player is : %s", g.Players()[0].Name)
+		fmt.Println("")
+		fmt.Printf("Starter symbon is : %s", g.Players()[0].Symbol)
+		fmt.Println("")
+		fmt.Printf("Turn number : %d", turnNumber)
+		fmt.Println("")
 		fmt.Printf("Type a number between 1 and 9 (%s's turn): ", g.CurrentPlayer().Name)
 
-		if g.CurrentPlayer().Name == starterName {
+		if g.CurrentPlayer().Name == "Computer" {
+			cell = GetRandomCell(1, 10)
+		} else {
 			scan := bufio.NewScanner(os.Stdin)
 			scan.Scan()
 			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
 			cell = int(n)
-		} else {
-			cell = GetRandomCell(1, 10)
 		}
 
 		if true == g.IsAvailable(cell) {
 			g.Play(cell)
 			fmt.Println("\nFinal board:\n")
 			fmt.Println(g.OutputBoard())
+		} else {
+			turnNumber--
 		}
 	}
 
