@@ -129,7 +129,7 @@ var keys = map[int]string{
 
 func (g *Game) render(board map[string]string) string {
 	for _, m := range g.moves {
-		board[keys[m.position]] = m.symbol
+		board[keys[m.position]] = m.player.Symbol
 	}
 
 	return " " + board[keys[1]] + " | " + board[keys[2]] + " | " + board[keys[3]] + " \n" +
