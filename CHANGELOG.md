@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #13] - avoid computer move twice
  - [close #11] - keep right random player
  - [close #9] - improve turn's message
  - [close #7] - removes binary file from project
