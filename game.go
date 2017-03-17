@@ -54,13 +54,18 @@ func main() {
 		fmt.Println("")
 		fmt.Printf("Type a number between 1 and 9 (%s's turn): ", g.CurrentPlayer().Name)
 
-		if g.CurrentPlayer().Name == "Computer" {
-			cell = GetRandomCell(1, 10)
-		} else {
-			scan := bufio.NewScanner(os.Stdin)
-			scan.Scan()
-			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
-			cell = int(n)
+		for {
+			if g.CurrentPlayer().Name == "Computer" {
+				cell = GetRandomCell(1, 10)
+			} else {
+				scan := bufio.NewScanner(os.Stdin)
+				scan.Scan()
+				n, _ := strconv.ParseInt(scan.Text(), 10, 32)
+				cell = int(n)
+			}
+			if cell >= 1 && cell <= 9 {
+				break
+			}
 		}
 
 		if true == g.IsAvailable(cell) {
