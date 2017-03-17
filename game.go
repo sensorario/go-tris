@@ -56,7 +56,7 @@ func main() {
 
 		for {
 			if g.CurrentPlayer().Name == "Computer" {
-				cell = GetRandomCell(1, 10)
+				cell = g.GetRandomCell(1, 10)
 			} else {
 				scan := bufio.NewScanner(os.Stdin)
 				scan.Scan()
