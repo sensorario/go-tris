@@ -1,8 +1,32 @@
 package main
 
 import (
+	"log"
 	"math/rand"
+	"os"
+	"strings"
+	"syscall"
 )
+
+const (
+	O_RDONLY int = syscall.O_RDONLY // open the file read-only.
+	O_CREATE int = syscall.O_CREAT  // create a new file if none exists.
+	O_RDWR   int = syscall.O_RDWR   // create a new file if none exists.
+	O_APPEND int = syscall.O_APPEND // create a new file if none exists.
+)
+
+var winSets = []struct {
+	winSet [3]int
+}{
+	{[3]int{1, 2, 3}},
+	{[3]int{4, 5, 6}},
+	{[3]int{7, 8, 9}},
+	{[3]int{1, 4, 7}},
+	{[3]int{1, 5, 9}},
+	{[3]int{2, 5, 8}},
+	{[3]int{3, 6, 9}},
+	{[3]int{3, 5, 7}},
+}
 
 type Player struct {
 	Name   string
@@ -67,19 +91,6 @@ func (g *Game) Play(position int) int {
 		move{currentPlayer, position, g.CurrentPlayer().Symbol},
 	)
 
-	var winSets = []struct {
-		winSet [3]int
-	}{
-		{[3]int{1, 2, 3}},
-		{[3]int{4, 5, 6}},
-		{[3]int{7, 8, 9}},
-		{[3]int{1, 4, 7}},
-		{[3]int{1, 5, 9}},
-		{[3]int{2, 5, 8}},
-		{[3]int{3, 6, 9}},
-		{[3]int{3, 5, 7}},
-	}
-
 	for _, set := range winSets {
 		if g.PlayerHasMovedInSet(currentPlayer, set.winSet) {
 			g.trisIsDone = true
@@ -103,6 +114,18 @@ func (g *Game) PlayerHasMovedInSet(p Player, positions [3]int) bool {
 	}
 
 	return setItemFound == 3
+}
+
+func (g *Game) PlayerHaveTwo(p Player, positions [3]int) bool {
+	setItemFound := 0
+
+	for _, pos := range positions {
+		if g.playerHasMovedIn(p, pos) {
+			setItemFound++
+		}
+	}
+
+	return setItemFound == 2
 }
 
 func (g *Game) CurrentPlayer() Player {
@@ -165,6 +188,30 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 	return false
 }
 
-func GetRandomCell(min int, max int) int {
+func (g *Game) GetRandomCell(min int, max int) int {
+	file, err := os.OpenFile("go-tris.log", O_RDONLY|O_CREATE|O_RDWR|O_APPEND, 0)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	log.SetOutput(file)
+
+	message := []string{
+		"Current user ",
+		g.CurrentPlayer().Name,
+	}
+
+	log.Printf(strings.Join(message, ""))
+	for _, set := range winSets {
+		if g.PlayerHaveTwo(g.CurrentPlayer(), set.winSet) {
+			log.Printf("buona scelta")
+			for _, s := range set.winSet {
+				if true == g.IsAvailable(s) {
+					return s
+				}
+			}
+		}
+	}
+
 	return min + rand.Intn(max-min)
 }

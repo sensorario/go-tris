@@ -1,3 +1,7 @@
+# Version 1.11
+
+ - [close #18] - add minimum ia to the game
+
 # Version 1.0
 
  - [close #13] - avoid computer move twice
