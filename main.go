@@ -1,0 +1,102 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"github.com/sensorario/bashutil"
+	"math/rand"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+)
+
+func main() {
+	var cell int
+	var g Game
+
+	g.logMessage(" --- Che il gioco abbia inizio --- ")
+
+	bashutil.Clear()
+
+	bashutil.Center("Your name: ")
+	pHuman := getUser()
+	pComputer := "Computer"
+
+	seed := time.Now().UTC().UnixNano()
+	rand.Seed(seed)
+
+	fmt.Println("Select first player")
+	randomNumber := rand.Intn(2)
+
+	if randomNumber == 0 {
+		g.AddPlayer(Player{pHuman, "x"})
+		g.AddPlayer(Player{pComputer, "o"})
+	} else {
+		g.AddPlayer(Player{pComputer, "x"})
+		g.AddPlayer(Player{pHuman, "o"})
+	}
+
+	fmt.Println("Start match")
+	turnNumber := 0
+
+	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
+		bashutil.Clear()
+
+		turnNumber++
+
+		fmt.Println("Available moves:\n")
+		fmt.Println(g.OutputHumanBoard())
+		fmt.Println("Clean board:\n")
+		fmt.Println(g.OutputBoard())
+		fmt.Printf("Starter player is : %s", g.Players()[0].Name)
+		fmt.Println("")
+		fmt.Printf("Starter symbon is : %s", g.Players()[0].Symbol)
+		fmt.Println("")
+		fmt.Printf("Turn number : %d", turnNumber)
+		fmt.Println("")
+		fmt.Printf("Type a number between 1 and 9 (%s's turn): ", g.CurrentPlayer().Name)
+
+		rawMessage := []string{
+			g.CurrentPlayer().Name,
+			"'s turn",
+		}
+		message := strings.Join(rawMessage, "")
+		g.logMessage(message)
+
+		for {
+			if g.CurrentPlayer().Name == "Computer" {
+				cell = g.GetRandomCell(1, 10)
+			} else {
+				scan := bufio.NewScanner(os.Stdin)
+				scan.Scan()
+				n, _ := strconv.ParseInt(scan.Text(), 10, 32)
+				cell = int(n)
+			}
+			if cell >= 1 && cell <= 9 {
+				break
+			}
+		}
+
+		if true == g.IsAvailable(cell) {
+			g.Play(cell)
+			fmt.Println("\nFinal board:\n")
+			fmt.Println(g.OutputBoard())
+		} else {
+			turnNumber--
+		}
+	}
+
+	if true == g.TrisIsDone() {
+		raw := []string{
+			g.NextPlayer().Name,
+			" wins!!",
+		}
+		message := strings.Join(raw, "")
+		g.logMessage(message)
+		fmt.Printf(message)
+		g.logMessage(" --- il gioco e' terminato --- ")
+	} else {
+		fmt.Println("Nobody wins")
+	}
+}
