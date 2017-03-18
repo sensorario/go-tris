@@ -15,5 +15,5 @@ prompt> go build
 # Execute the program
 
 ```bash
-prompt> ./game
+prompt> ./go-tris
 ```
