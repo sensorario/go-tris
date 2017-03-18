@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #23] - fix command in readme file
  - [close #18] - add minimum ia to the game
  - [close #13] - avoid computer move twice
  - [close #11] - keep right random player
