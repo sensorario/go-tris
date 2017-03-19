@@ -113,9 +113,25 @@ var keys = map[int]string{
 	7: "ca", 8: "cb", 9: "cc",
 }
 
+func mark(symbol string) string {
+	red := "\033[31m"
+	blue := "\033[32m"
+	reset := "\033[39m"
+
+	if symbol == "x" {
+		return red + symbol + reset
+	}
+
+	if symbol == "o" {
+		return blue + symbol + reset
+	}
+
+	return symbol
+}
+
 func (g *Game) render(board map[string]string) string {
 	for _, m := range g.moves {
-		board[keys[m.position]] = m.player.Symbol
+		board[keys[m.position]] = mark(m.player.Symbol)
 	}
 
 	return " " + board[keys[1]] + " | " + board[keys[2]] + " | " + board[keys[3]] + " \n" +

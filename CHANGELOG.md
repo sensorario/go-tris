@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #22] - mark selected tiles with color
  - [close #14] - show game history
  - [close #26] - computer level is randomly easy or hard
  - [close #23] - fix command in readme file
