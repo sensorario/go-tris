@@ -26,9 +26,18 @@ func main() {
 	seed := time.Now().UTC().UnixNano()
 	rand.Seed(seed)
 
-	fmt.Println("Select first player")
-	randomNumber := rand.Intn(2)
+	g.logMessage("Init computer level")
+	randomLevel := rand.Intn(2)
+	if randomLevel == 0 {
+		g.logMessage("Computer level: easy")
+		g.playEasy()
+	} else {
+		g.logMessage("Computer level: hard")
+		g.playHard()
+	}
 
+	g.logMessage("Select first player")
+	randomNumber := rand.Intn(2)
 	if randomNumber == 0 {
 		g.AddPlayer(Player{pHuman, "x"})
 		g.AddPlayer(Player{pComputer, "o"})
@@ -95,8 +104,23 @@ func main() {
 		message := strings.Join(raw, "")
 		g.logMessage(message)
 		fmt.Printf(message)
-		g.logMessage(" --- il gioco e' terminato --- ")
 	} else {
 		fmt.Println("Nobody wins")
 	}
+
+	g.logMessage(" --- il gioco e' terminato --- ")
+	g.logMessage(" --- moves --- ")
+	for number, m := range g.moves {
+		message := []string{
+			"Move ",
+			strconv.Itoa(number),
+			" ( ",
+			m.player.Name,
+			" ) ",
+			" : ",
+			strconv.Itoa(m.position),
+		}
+		g.logMessage(strings.Join(message, ""))
+	}
+	g.logMessage(" --- moves --- \n")
 }
