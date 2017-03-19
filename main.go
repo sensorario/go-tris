@@ -51,6 +51,17 @@ func main() {
 
 	for 0 < g.AvailableTile() && false == g.TrisIsDone() {
 		bashutil.Clear()
+		var level string
+		if g.isHard == true {
+			level = "hard"
+		} else {
+			level = "easy"
+		}
+		computerLevelMessage := []string{
+			"Computer level : ",
+			level,
+		}
+		fmt.Println(strings.Join(computerLevelMessage, ""))
 
 		turnNumber++
 
