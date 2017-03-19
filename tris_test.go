@@ -46,7 +46,7 @@ func TestFirstMoveMarkTheBoard(t *testing.T) {
 	g := game()
 	player := g.CurrentPlayer().Symbol
 	g.Play(1)
-	boardWithMark := " " + player + " |   |   \n---|---|---\n   |   |   \n---|---|---\n   |   |   \n"
+	boardWithMark := " " + mark(player) + " |   |   \n---|---|---\n   |   |   \n---|---|---\n   |   |   \n"
 	if g.OutputBoard() != boardWithMark {
 		fmt.Println(g.OutputBoard())
 		fmt.Println(boardWithMark)
@@ -58,9 +58,9 @@ func TestFirstMoveMarkTheBoard(t *testing.T) {
 
 func TestSecondMoves(t *testing.T) {
 	g := game()
-	firstPlayerSymbol := g.CurrentPlayer().Symbol
+	firstPlayerSymbol := mark(g.CurrentPlayer().Symbol)
 	g.Play(1)
-	secondPlayerSymbol := g.CurrentPlayer().Symbol
+	secondPlayerSymbol := mark(g.CurrentPlayer().Symbol)
 	g.Play(2)
 	boardWithMark := " " + firstPlayerSymbol + " | " + secondPlayerSymbol + " |   \n---|---|---\n   |   |   \n---|---|---\n   |   |   \n"
 	if g.OutputBoard() != boardWithMark {
@@ -74,9 +74,9 @@ func TestSecondMoves(t *testing.T) {
 
 func TestThirdMoves(t *testing.T) {
 	g := game()
-	firstPlayerSymbol := g.CurrentPlayer().Symbol
+	firstPlayerSymbol := mark(g.CurrentPlayer().Symbol)
 	g.Play(1)
-	secondPlayerSymbol := g.CurrentPlayer().Symbol
+	secondPlayerSymbol := mark(g.CurrentPlayer().Symbol)
 	g.Play(2)
 	g.Play(4)
 	boardWithMark := " " + firstPlayerSymbol + " | " + secondPlayerSymbol + " |   \n---|---|---\n " + firstPlayerSymbol + " |   |   \n---|---|---\n   |   |   \n"
