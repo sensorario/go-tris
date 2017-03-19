@@ -4,7 +4,6 @@ import (
 	"log"
 	"math/rand"
 	"os"
-	"strings"
 	"syscall"
 )
 
@@ -88,20 +87,24 @@ func (g *Game) PlayerHaveTwo(p Player, positions [3]int) bool {
 	return setItemFound == 2
 }
 
+func (g *Game) movesDone() int {
+	return len(g.moves)
+}
+
 func (g *Game) CurrentPlayer() Player {
-	return g.players[len(g.moves)%2]
+	return g.players[g.movesDone()%2]
 }
 
 func (g *Game) NextPlayer() Player {
-	return g.players[(len(g.moves)+1)%2]
+	return g.players[(g.movesDone()+1)%2]
 }
 
 func (g *Game) shouldPlay() Player {
-	return g.players[len(g.moves)%2]
+	return g.players[g.movesDone()%2]
 }
 
 func (g *Game) AvailableTile() int {
-	return 9 - len(g.moves)
+	return 9 - g.movesDone()
 }
 
 var keys = map[int]string{
@@ -149,15 +152,39 @@ func (g *Game) playerHasMovedIn(p Player, position int) bool {
 }
 
 func (g *Game) GetRandomCell(min int, max int) int {
-	message := []string{
-		"Current user ",
-		g.CurrentPlayer().Name,
+	if false == g.isHard {
+		return min + rand.Intn(max-min)
 	}
-	g.logMessage(strings.Join(message, ""))
 
+	if g.movesDone() == 0 {
+		firstMove := min + rand.Intn(max-min)
+		g.logMessage("Computer moves random")
+		return firstMove
+	}
+
+	if g.movesDone() == 1 {
+		if g.moves[0].position == 2 ||
+			g.moves[0].position == 4 {
+			g.logMessage("Computer moves to corner")
+			return 1
+		}
+
+		if g.moves[0].position == 6 ||
+			g.moves[0].position == 8 {
+			g.logMessage("Computer moves to corner")
+			return 9
+		}
+
+		if g.IsAvailable(5) {
+			return 5
+		} else {
+			return min + rand.Intn(max-min)
+		}
+	}
+
+	g.logMessage("Computer try to win")
 	for _, set := range winSets {
 		if g.PlayerHaveTwo(g.CurrentPlayer(), set.winSet) {
-			g.logMessage("buona scelta")
 			for _, s := range set.winSet {
 				if true == g.IsAvailable(s) {
 					return s
@@ -166,6 +193,18 @@ func (g *Game) GetRandomCell(min int, max int) int {
 		}
 	}
 
+	for _, set := range winSets {
+		if g.PlayerHaveTwo(g.NextPlayer(), set.winSet) {
+			for _, s := range set.winSet {
+				if true == g.IsAvailable(s) {
+					g.logMessage("Computer blocks opponent")
+					return s
+				}
+			}
+		}
+	}
+
+	g.logMessage("Computer moves randomly")
 	return min + rand.Intn(max-min)
 }
 
@@ -177,4 +216,12 @@ func (g *Game) logMessage(message string) {
 	defer file.Close()
 	log.SetOutput(file)
 	log.Println(message)
+}
+
+func (g *Game) playEasy() {
+	g.isHard = false
+}
+
+func (g *Game) playHard() {
+	g.isHard = true
 }

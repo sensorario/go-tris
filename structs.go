@@ -24,6 +24,7 @@ type Game struct {
 	board         board
 	moves         []move
 	trisIsDone    bool
+	isHard        bool
 }
 
 type move struct {

@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #26] - computer level is randomly easy or hard
  - [close #23] - fix command in readme file
  - [close #18] - add minimum ia to the game
  - [close #13] - avoid computer move twice
