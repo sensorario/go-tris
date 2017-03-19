@@ -96,6 +96,19 @@ func main() {
 		}
 	}
 
+	for number, m := range g.moves {
+		message := []string{
+			"Move ",
+			strconv.Itoa(number + 1),
+			" ( ",
+			m.player.Name,
+			" ) ",
+			" : ",
+			strconv.Itoa(m.position),
+		}
+		fmt.Println(strings.Join(message, ""))
+	}
+
 	if true == g.TrisIsDone() {
 		raw := []string{
 			g.NextPlayer().Name,
@@ -113,7 +126,7 @@ func main() {
 	for number, m := range g.moves {
 		message := []string{
 			"Move ",
-			strconv.Itoa(number),
+			strconv.Itoa(number + 1),
 			" ( ",
 			m.player.Name,
 			" ) ",
