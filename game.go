@@ -214,9 +214,9 @@ func (g *Game) GetRandomCell(min int, max int) int {
 		}
 	}
 
-	g.logMessage("Computer try to block opponent")
+	g.logMessage("Computer try to win")
 	for _, set := range winSets {
-		if g.PlayerHaveTwo(g.NextPlayer(), set.winSet) {
+		if g.PlayerHaveTwo(g.CurrentPlayer(), set.winSet) {
 			for _, s := range set.winSet {
 				if true == g.IsAvailable(s) {
 					return s
@@ -225,9 +225,9 @@ func (g *Game) GetRandomCell(min int, max int) int {
 		}
 	}
 
-	g.logMessage("Computer try to win")
+	g.logMessage("Computer try to block opponent")
 	for _, set := range winSets {
-		if g.PlayerHaveTwo(g.CurrentPlayer(), set.winSet) {
+		if g.PlayerHaveTwo(g.NextPlayer(), set.winSet) {
 			for _, s := range set.winSet {
 				if true == g.IsAvailable(s) {
 					return s

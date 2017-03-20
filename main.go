@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"github.com/sensorario/bashutil"
 	"math/rand"
@@ -15,6 +16,17 @@ func main() {
 	var cell int
 	var g Game
 
+	read := flag.String("level", "hard", "the foo value")
+	flag.Parse()
+	g.logMessage("Init computer level")
+	if *read == "easy" {
+		g.logMessage("Computer level: easy")
+		g.playEasy()
+	} else {
+		g.logMessage("Computer level: hard")
+		g.playHard()
+	}
+
 	g.logMessage(" --- Che il gioco abbia inizio --- ")
 
 	bashutil.Clear()
@@ -25,16 +37,6 @@ func main() {
 
 	seed := time.Now().UTC().UnixNano()
 	rand.Seed(seed)
-
-	g.logMessage("Init computer level")
-	randomLevel := rand.Intn(2)
-	if randomLevel == 0 {
-		g.logMessage("Computer level: easy")
-		g.playEasy()
-	} else {
-		g.logMessage("Computer level: hard")
-		g.playHard()
-	}
 
 	g.logMessage("Select first player")
 	randomNumber := rand.Intn(2)
