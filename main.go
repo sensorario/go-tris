@@ -57,13 +57,18 @@ func main() {
 		} else {
 			level = "easy"
 		}
-		computerLevelMessage := []string{
-			"Computer level : ",
-			level,
-		}
+		computerLevelMessage := []string{"Computer level : ", level}
 		fmt.Println(strings.Join(computerLevelMessage, ""))
 
 		turnNumber++
+
+		turnNumberMessage := []string{
+			"Turn ",
+			strconv.Itoa(10 - turnNumber),
+			" of ",
+			strconv.Itoa(turnNumber),
+		}
+		fmt.Println(strings.Join(turnNumberMessage, ""))
 
 		fmt.Println("Available moves:\n")
 		fmt.Println(g.OutputHumanBoard())
