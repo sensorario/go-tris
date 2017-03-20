@@ -22,8 +22,10 @@ func main() {
 	if *read == "easy" {
 		g.logMessage("Computer level: easy")
 		g.playEasy()
-	} else {
+	} else if *read == "hard" {
 		g.logMessage("Computer level: hard")
+		g.playHard()
+	} else {
 		g.playHard()
 	}
 
