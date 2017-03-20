@@ -87,6 +87,21 @@ func (g *Game) PlayerHaveTwo(p Player, positions [3]int) bool {
 	return setItemFound == 2
 }
 
+func (g *Game) PlayerHaveOneAndTwoAreFree(p Player, positions [3]int) bool {
+	setItemFound := 0
+	setItemFree := 0
+
+	for _, pos := range positions {
+		if g.playerHasMovedIn(p, pos) {
+			setItemFound++
+		} else {
+			setItemFree++
+		}
+	}
+
+	return setItemFree == 2 && setItemFound == 1
+}
+
 func (g *Game) movesDone() int {
 	return len(g.moves)
 }
@@ -192,9 +207,21 @@ func (g *Game) GetRandomCell(min int, max int) int {
 		}
 
 		if g.IsAvailable(5) {
+			g.logMessage("Computer moves to center")
 			return 5
 		} else {
 			return min + rand.Intn(max-min)
+		}
+	}
+
+	g.logMessage("Computer try to block opponent")
+	for _, set := range winSets {
+		if g.PlayerHaveTwo(g.NextPlayer(), set.winSet) {
+			for _, s := range set.winSet {
+				if true == g.IsAvailable(s) {
+					return s
+				}
+			}
 		}
 	}
 
@@ -209,11 +236,11 @@ func (g *Game) GetRandomCell(min int, max int) int {
 		}
 	}
 
+	g.logMessage("Computer try to bis")
 	for _, set := range winSets {
-		if g.PlayerHaveTwo(g.NextPlayer(), set.winSet) {
+		if g.PlayerHaveOneAndTwoAreFree(g.CurrentPlayer(), set.winSet) {
 			for _, s := range set.winSet {
 				if true == g.IsAvailable(s) {
-					g.logMessage("Computer blocks opponent")
 					return s
 				}
 			}
