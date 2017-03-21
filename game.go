@@ -252,12 +252,12 @@ func (g *Game) GetRandomCell(min int, max int) int {
 }
 
 func (g *Game) logMessage(message string) {
-	file, err := os.OpenFile("go-tris.log", O_CREATE|O_RDWR|O_APPEND, 0)
+	f, err := os.OpenFile("go-tris.log", O_CREATE|O_RDWR|O_APPEND, 0)
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
-	log.SetOutput(file)
+	defer f.Close()
+	log.SetOutput(f)
 	log.Println(message)
 }
 

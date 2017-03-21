@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #16] - save match into file
  - [close #31] - force computer level
  - [close #22] - mark selected tiles with color
  - [close #14] - show game history

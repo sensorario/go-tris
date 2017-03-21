@@ -147,6 +147,22 @@ func main() {
 		g.logMessage(strings.Join(message, ""))
 	}
 	g.logMessage(" --- moves --- \n")
+
+	saveMoves := g.Players()[0].Name + "," + g.Players()[1].Name
+	for _, m := range g.moves {
+		saveMoves += "," + strconv.Itoa(m.position)
+	}
+	f, err := os.OpenFile("games", O_CREATE|O_RDWR|O_APPEND, 0777)
+	check(err)
+	w := bufio.NewWriter(f)
+	f.WriteString(saveMoves + "\n")
+	w.Flush()
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }
 
 func (g *Game) lastMessage() string {
