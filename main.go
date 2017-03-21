@@ -116,30 +116,22 @@ func main() {
 		}
 	}
 
+	level := "easy"
+	if g.isHard == true {
+		level = "hard"
+	}
+	fmt.Println("Level : " + level + "\n")
 	for number, m := range g.moves {
-		message := []string{
-			"Move ",
-			strconv.Itoa(number + 1),
-			" ( ",
-			m.player.Name,
-			" ) ",
-			" : ",
-			strconv.Itoa(m.position),
-		}
-		fmt.Println(strings.Join(message, ""))
+		message := "" +
+			"Move " + strconv.Itoa(number+1) +
+			" ( " + m.player.Name + " ) " +
+			" : " + strconv.Itoa(m.position)
+		fmt.Println(message)
 	}
 
-	if true == g.TrisIsDone() {
-		raw := []string{
-			g.NextPlayer().Name,
-			" wins!!",
-		}
-		message := strings.Join(raw, "")
-		g.logMessage(message)
-		fmt.Printf(message)
-	} else {
-		fmt.Println("Nobody wins")
-	}
+	message := g.lastMessage()
+	g.logMessage(message)
+	fmt.Printf("\n" + message + "\n")
 
 	g.logMessage(" --- il gioco e' terminato --- ")
 	g.logMessage(" --- moves --- ")
@@ -156,4 +148,12 @@ func main() {
 		g.logMessage(strings.Join(message, ""))
 	}
 	g.logMessage(" --- moves --- \n")
+}
+
+func (g *Game) lastMessage() string {
+	if true == g.TrisIsDone() {
+		return g.NextPlayer().Name + " wins!!"
+	}
+
+	return "Nobody wins."
 }
