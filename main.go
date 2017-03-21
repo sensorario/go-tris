@@ -33,7 +33,6 @@ func main() {
 
 	bashutil.Clear()
 
-	bashutil.Center("Your name: ")
 	pHuman := getUser()
 	pComputer := "Computer"
 

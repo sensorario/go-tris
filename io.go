@@ -2,12 +2,21 @@ package main
 
 import (
 	"bufio"
+	"github.com/sensorario/bashutil"
 	"os"
 )
 
 func getUser() string {
-	scan := bufio.NewScanner(os.Stdin)
-	scan.Scan()
+	username := ""
 
-	return scan.Text()
+	for username == "" {
+		bashutil.Clear()
+		bashutil.Center("Your name: ")
+
+		scan := bufio.NewScanner(os.Stdin)
+		scan.Scan()
+		username = scan.Text()
+	}
+
+	return username
 }
