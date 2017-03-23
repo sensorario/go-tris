@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [close #17] - watch game replay
  - [close #16] - save match into file
  - [close #31] - force computer level
  - [close #22] - mark selected tiles with color
