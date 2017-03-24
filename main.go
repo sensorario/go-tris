@@ -2,6 +2,8 @@ package main
 
 import (
 	"bufio"
+	"crypto/md5"
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"github.com/sensorario/bashutil"
@@ -12,7 +14,109 @@ import (
 	"time"
 )
 
+type Int int
+
+func (integer Int) String() string {
+	return strconv.Itoa(int(integer))
+}
+
 func main() {
+
+	stay := true
+	selection := 0
+	for stay {
+		bashutil.Clear()
+		bashutil.Centerln("----------------------")
+		bashutil.Centerln("| Menu                ")
+		bashutil.Centerln("----------------------")
+		bashutil.Centerln(" 1) play              ")
+		bashutil.Centerln("----------------------")
+		bashutil.Centerln(" 2) Replay past game  ")
+		bashutil.Centerln("----------------------")
+		bashutil.Centerln(" 3) Exit              ")
+		bashutil.Centerln("----------------------")
+		bashutil.Center(": ")
+
+		if selection == 2 {
+			f, err := os.Open("games")
+			check(err)
+			defer f.Close()
+
+			bashutil.Clear()
+			scanner := bufio.NewScanner(f)
+			matchNumber := 1
+			var matches map[int]string
+			matches = make(map[int]string)
+			completeMathces := make(map[string]string)
+			for scanner.Scan() {
+				match := scanner.Text()[0:32]
+				completeMathces[match] = scanner.Text()
+				message := "match " + Int(matchNumber).String() + ") " + match
+				matches[matchNumber] = match
+				fmt.Println(message)
+				matchNumber++
+			}
+
+			scan := bufio.NewScanner(os.Stdin)
+			scan.Scan()
+			n, _ := strconv.ParseInt(scan.Text(), 10, 32)
+			selection = int(n)
+
+			fmt.Println("Selection : " + Int(selection).String())
+			if hashGame, ok := matches[selection]; ok {
+				completeMathce := completeMathces[hashGame]
+				fmt.Println("Game selected : " + hashGame)
+				fmt.Println("Complete Game : " + completeMathce)
+				theGame := strings.Split(completeMathce, ",")
+
+				var g Game
+				var pp map[int]string
+				pp = make(map[int]string)
+				for i := 1; i <= 9; i++ {
+					pp[i] = " "
+				}
+				for key, position := range theGame {
+					if key > 2 {
+						conv, err := strconv.Atoi(position)
+						check(err)
+						symbol := "x"
+						if key%2 == 0 {
+							symbol = "x"
+						} else {
+							symbol = "o"
+						}
+						pp[conv] = symbol
+					}
+				}
+
+				fmt.Println(g.render(map[string]string{
+					"aa": pp[1],
+					"ab": pp[2],
+					"ac": pp[3],
+					"ba": pp[4],
+					"bb": pp[5],
+					"bc": pp[6],
+					"ca": pp[7],
+					"cb": pp[8],
+					"cc": pp[9],
+				}))
+
+			} else {
+				message := "Game " + Int(selection).String() + " not found"
+				fmt.Println(message)
+			}
+		}
+
+		scan := bufio.NewScanner(os.Stdin)
+		scan.Scan()
+		n, _ := strconv.ParseInt(scan.Text(), 10, 32)
+		selection = int(n)
+
+		if selection == 3 {
+			os.Exit(0)
+		}
+	}
+
 	var cell int
 	var g Game
 
@@ -120,12 +224,8 @@ func main() {
 		level = "hard"
 	}
 	fmt.Println("Level : " + level + "\n")
-	for number, m := range g.moves {
-		message := "" +
-			"Move " + strconv.Itoa(number+1) +
-			" ( " + m.player.Name + " ) " +
-			" : " + strconv.Itoa(m.position)
-		fmt.Println(message)
+	for turn, m := range g.moves {
+		fmt.Println(turnMessage(m, turn))
 	}
 
 	message := g.lastMessage()
@@ -134,21 +234,18 @@ func main() {
 
 	g.logMessage(" --- il gioco e' terminato --- ")
 	g.logMessage(" --- moves --- ")
-	for number, m := range g.moves {
-		message := []string{
-			"Move ",
-			strconv.Itoa(number + 1),
-			" ( ",
-			m.player.Name,
-			" ) ",
-			" : ",
-			strconv.Itoa(m.position),
-		}
-		g.logMessage(strings.Join(message, ""))
+	for turn, m := range g.moves {
+		g.logMessage(turnMessage(m, turn))
 	}
 	g.logMessage(" --- moves --- \n")
 
-	saveMoves := g.Players()[0].Name + "," + g.Players()[1].Name
+	hasher := md5.New()
+	hasher.Write([]byte(time.Now().String()))
+	md5String := hex.EncodeToString(hasher.Sum(nil))
+	saveMoves := md5String +
+		"," + g.Players()[0].Name +
+		"," + g.Players()[1].Name
+
 	for _, m := range g.moves {
 		saveMoves += "," + strconv.Itoa(m.position)
 	}
@@ -157,6 +254,12 @@ func main() {
 	w := bufio.NewWriter(f)
 	f.WriteString(saveMoves + "\n")
 	w.Flush()
+}
+
+func turnMessage(m move, turn int) string {
+	return strconv.Itoa(turn+1) + ") " +
+		m.player.Name + "'s turn : " +
+		strconv.Itoa(m.position)
 }
 
 func check(e error) {
