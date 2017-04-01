@@ -1,0 +1,20 @@
+version: 2
+jobs:
+    build:
+
+        docker:
+            - image: golang:1.6-onbuild
+
+        working_directory: /go/src/github.com/circleci/go-tris
+
+        steps:
+
+            - checkout
+
+            - run:
+                name: greetings
+                command: echo "hello tris"
+
+            - run: go get github.com/sensorario/bashutil
+
+            - run: go test
