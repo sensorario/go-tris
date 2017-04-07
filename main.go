@@ -115,6 +115,10 @@ func main() {
 		if selection == 3 {
 			os.Exit(0)
 		}
+
+		if selection == 1 {
+			stay = false
+		}
 	}
 
 	var cell int
