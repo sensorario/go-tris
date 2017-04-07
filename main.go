@@ -37,7 +37,7 @@ func main() {
 		bashutil.Centerln("----------------------")
 		bashutil.Center(": ")
 
-		if selection == 2 {
+		if selection == menu["replay"] {
 			f, err := os.Open("games")
 			check(err)
 			defer f.Close()
@@ -112,11 +112,11 @@ func main() {
 		n, _ := strconv.ParseInt(scan.Text(), 10, 32)
 		selection = int(n)
 
-		if selection == 3 {
+		if selection == menu["exit"] {
 			os.Exit(0)
 		}
 
-		if selection == 1 {
+		if selection == menu["play"] {
 			stay = false
 		}
 	}

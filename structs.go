@@ -1,5 +1,11 @@
 package main
 
+var menu = map[string]int{
+	"play":   1,
+	"replay": 2,
+	"exit":   3,
+}
+
 var winSets = []struct {
 	winSet [3]int
 }{
