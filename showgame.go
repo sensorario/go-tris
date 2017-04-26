@@ -45,7 +45,10 @@ func showGame(theGame []string) {
 
 func showOldMatches(selection int) {
 	f, err := os.Open("games")
-	check(err)
+	if err != nil {
+		fmt.Println("No file")
+		return
+	}
 	defer f.Close()
 
 	bashutil.Clear()
