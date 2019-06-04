@@ -1,5 +1,6 @@
 # Version 1.0
 
+ - [enh] go modules
  - [fix] watch game replay
  - [fix] watch game replay
  - [fix] save match into file
